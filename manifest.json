@@ -1,0 +1,13 @@
+{
+  "name": "Iceland Trip 2026",
+  "short_name": "Iceland 2026",
+  "description": "Trip planner for Aadi & Krithika, Nithish & Niranjana — 15-20 Sept 2026",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#081821",
+  "theme_color": "#081821",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}
