@@ -227,7 +227,7 @@
     <div class="section-title"><h2>Car — Lotus Car Rental</h2></div>
     <div class="card">
       <div class="grid2" id="ov-car"></div>
-      <div class="subnote editable" contenteditable="false" data-path='["overview","carNote"]' style="margin-top:12px; margin-bottom:0;"></div>
+      <div class="subnote" id="ov-carnote" style="margin-top:12px; margin-bottom:0;"></div>
     </div>
 
     <div class="section-title"><h2>Don't forget</h2></div>
@@ -744,7 +744,7 @@ function renderOverview(){
       ${delBtn(["overview","car"], i)}
     </div>`).join('');
 
-  document.querySelector('[data-path="[&quot;overview&quot;,&quot;carNote&quot;]"]').textContent = DATA.overview.carNote;
+  document.getElementById('ov-carnote').innerHTML = editableSpan(["overview","carNote"], DATA.overview.carNote);
 
   const rem = document.getElementById('ov-reminders');
   rem.innerHTML = DATA.overview.reminders.map((r,i) => `
@@ -1080,13 +1080,16 @@ tickCountdown();
 /* =========================================================
    RENDER ALL + INIT
    ========================================================= */
+function safeRender(fn, label){
+  try{ fn(); }catch(e){ console.error('Render failed:', label, e); }
+}
 function renderAll(){
-  renderOverview();
-  renderItinerary();
-  renderCosts();
-  renderPacking();
-  renderFood();
-  renderChecklist();
+  safeRender(renderOverview, 'overview');
+  safeRender(renderItinerary, 'itinerary');
+  safeRender(renderCosts, 'costs');
+  safeRender(renderPacking, 'packing');
+  safeRender(renderFood, 'food');
+  safeRender(renderChecklist, 'checklist');
 }
 
 (async function init(){
