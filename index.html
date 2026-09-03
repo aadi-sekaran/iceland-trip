@@ -11,22 +11,11 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root{
-    --bg:#081821;
-    --bg2:#0d2530;
-    --bg3:#123141;
-    --card:#0f2a36;
-    --card2:#123544;
-    --border:rgba(180,220,220,0.12);
-    --border-soft:rgba(180,220,220,0.07);
-    --text:#eaf6f5;
-    --text-dim:#9fb8bd;
-    --text-dimmer:#6d8890;
-    --aurora:#6ee7b7;
-    --aurora2:#3ddc97;
-    --ice:#8fd8e0;
-    --amber:#f4b860;
-    --red:#ff7a7a;
-    --violet:#b8a4f0;
+    --bg:#081821; --bg2:#0d2530; --bg3:#123141;
+    --card:#0f2a36; --card2:#123544;
+    --border:rgba(180,220,220,0.12); --border-soft:rgba(180,220,220,0.07);
+    --text:#eaf6f5; --text-dim:#9fb8bd; --text-dimmer:#6d8890;
+    --aurora:#6ee7b7; --aurora2:#3ddc97; --ice:#8fd8e0; --amber:#f4b860; --red:#ff7a7a; --violet:#b8a4f0;
     --shadow: 0 8px 30px rgba(0,0,0,0.35);
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
@@ -37,266 +26,164 @@
       radial-gradient(1000px 500px at 90% 0%, rgba(143,216,224,0.08), transparent 55%),
       linear-gradient(180deg,var(--bg) 0%, var(--bg2) 100%);
     background-attachment:fixed;
-    color:var(--text);
-    font-family:'Inter',sans-serif;
-    min-height:100vh;
-    padding-bottom:60px;
+    color:var(--text); font-family:'Inter',sans-serif; min-height:100vh; padding-bottom:70px;
   }
   h1,h2,h3,.serif{font-family:'Fraunces',serif;}
   a{color:var(--aurora);}
   ::selection{background:var(--aurora); color:#062018;}
 
-  /* ---------- HEADER ---------- */
-  header.hero{
-    padding:38px 20px 26px;
-    text-align:center;
-    position:relative;
-    overflow:hidden;
-    border-bottom:1px solid var(--border-soft);
-  }
-  header.hero::before{
-    content:"";
-    position:absolute; inset:0;
-    background:
-      linear-gradient(120deg, rgba(110,231,183,0.10), transparent 40%, rgba(143,216,224,0.08) 70%, transparent);
-    pointer-events:none;
-    animation: shimmer 12s ease-in-out infinite alternate;
-  }
+  header.hero{ padding:38px 20px 22px; text-align:center; position:relative; overflow:hidden; border-bottom:1px solid var(--border-soft);}
+  header.hero::before{ content:""; position:absolute; inset:0; background:linear-gradient(120deg, rgba(110,231,183,0.10), transparent 40%, rgba(143,216,224,0.08) 70%, transparent); pointer-events:none; animation: shimmer 12s ease-in-out infinite alternate;}
   @keyframes shimmer{ 0%{opacity:.5} 100%{opacity:1} }
-  .eyebrow{
-    display:inline-block; font-size:12px; letter-spacing:.16em; text-transform:uppercase;
-    color:var(--aurora); font-weight:700; margin-bottom:10px;
-  }
-  header.hero h1{
-    font-size:clamp(28px,5vw,46px); font-weight:600; margin:0 0 8px; letter-spacing:-0.01em;
-    background:linear-gradient(90deg,#eafff6,#bdeee0 40%,#8fd8e0 75%,#eafff6);
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-  }
-  header.hero .sub{color:var(--text-dim); font-size:15px; margin-bottom:22px;}
-  .countdown{
-    display:inline-flex; gap:10px; flex-wrap:wrap; justify-content:center;
-  }
-  .cd-box{
-    background:rgba(255,255,255,0.04);
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:10px 16px;
-    min-width:64px;
-    backdrop-filter: blur(6px);
-  }
+  .eyebrow{ display:inline-block; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--aurora); font-weight:700; margin-bottom:10px;}
+  header.hero h1{ font-size:clamp(28px,5vw,46px); font-weight:600; margin:0 0 8px; letter-spacing:-0.01em;
+    background:linear-gradient(90deg,#eafff6,#bdeee0 40%,#8fd8e0 75%,#eafff6); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  header.hero .sub{color:var(--text-dim); font-size:15px; margin-bottom:20px;}
+  .countdown{ display:inline-flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:18px;}
+  .cd-box{ background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:14px; padding:10px 16px; min-width:64px; backdrop-filter: blur(6px);}
   .cd-box .num{font-family:'Fraunces',serif; font-size:24px; font-weight:600; color:var(--aurora);}
   .cd-box .lbl{font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-dimmer);}
 
-  /* ---------- NAV ---------- */
-  nav.tabs{
-    position:sticky; top:0; z-index:50;
-    display:flex; gap:6px; overflow-x:auto;
-    padding:10px 14px; margin-top: 0;
-    background:rgba(8,24,33,0.88);
-    backdrop-filter: blur(10px);
-    border-bottom:1px solid var(--border-soft);
-    scrollbar-width:none;
+  .edit-toggle{
+    display:inline-flex; align-items:center; gap:8px;
+    background:rgba(255,255,255,0.05); border:1px solid var(--border);
+    color:var(--text-dim); font-family:'Inter',sans-serif; font-weight:700; font-size:13px;
+    padding:9px 18px; border-radius:999px; cursor:pointer; transition:.18s;
   }
+  .edit-toggle:hover{ background:rgba(255,255,255,0.08); }
+  .edit-toggle.on{ background:linear-gradient(135deg, rgba(244,184,96,0.22), rgba(244,184,96,0.10)); border-color:rgba(244,184,96,0.5); color:var(--amber); }
+  .edit-toggle .dot{width:7px; height:7px; border-radius:50%; background:var(--text-dimmer);}
+  .edit-toggle.on .dot{background:var(--amber); box-shadow:0 0 8px var(--amber);}
+
+  nav.tabs{ position:sticky; top:0; z-index:50; display:flex; gap:6px; overflow-x:auto; padding:10px 14px;
+    background:rgba(8,24,33,0.88); backdrop-filter: blur(10px); border-bottom:1px solid var(--border-soft); scrollbar-width:none;}
   nav.tabs::-webkit-scrollbar{display:none;}
-  nav.tabs button{
-    flex:0 0 auto;
-    background:transparent;
-    border:1px solid transparent;
-    color:var(--text-dim);
-    font-family:'Inter',sans-serif;
-    font-weight:600; font-size:13.5px;
-    padding:9px 14px;
-    border-radius:999px;
-    cursor:pointer;
-    white-space:nowrap;
-    transition:.18s;
-  }
+  nav.tabs button{ flex:0 0 auto; background:transparent; border:1px solid transparent; color:var(--text-dim);
+    font-family:'Inter',sans-serif; font-weight:600; font-size:13.5px; padding:9px 14px; border-radius:999px; cursor:pointer; white-space:nowrap; transition:.18s;}
   nav.tabs button:hover{ color:var(--text); background:rgba(255,255,255,0.04); }
-  nav.tabs button.active{
-    background:linear-gradient(135deg, rgba(110,231,183,0.18), rgba(143,216,224,0.10));
-    border-color:rgba(110,231,183,0.35);
-    color:var(--aurora);
-  }
+  nav.tabs button.active{ background:linear-gradient(135deg, rgba(110,231,183,0.18), rgba(143,216,224,0.10)); border-color:rgba(110,231,183,0.35); color:var(--aurora);}
 
   main{max-width:920px; margin:0 auto; padding:22px 16px 10px;}
   .panel{display:none; animation: fadein .35s ease;}
   .panel.active{display:block;}
   @keyframes fadein{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
 
-  .section-title{
-    display:flex; align-items:baseline; justify-content:space-between; gap:10px;
-    margin:30px 0 12px;
-  }
+  .section-title{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin:30px 0 12px;}
   .section-title:first-child{margin-top:6px;}
   .section-title h2{font-size:19px; font-weight:600; margin:0; color:var(--text);}
   .section-title .count{font-size:12px; color:var(--text-dimmer);}
 
-  .card{
-    background:linear-gradient(160deg, var(--card), var(--card2));
-    border:1px solid var(--border);
-    border-radius:16px;
-    padding:16px 18px;
-    margin-bottom:12px;
-    box-shadow:var(--shadow);
-  }
+  .card{ background:linear-gradient(160deg, var(--card), var(--card2)); border:1px solid var(--border); border-radius:16px; padding:16px 18px; margin-bottom:12px; box-shadow:var(--shadow);}
   .card.tight{padding:12px 14px;}
   .grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
   @media(max-width:560px){ .grid2{grid-template-columns:1fr;} }
 
-  .kv{display:flex; flex-direction:column; gap:2px;}
+  .kv{display:flex; flex-direction:column; gap:2px; position:relative;}
   .kv .k{font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--text-dimmer);}
   .kv .v{font-size:14.5px; color:var(--text); font-weight:600;}
 
-  .badge{
-    display:inline-flex; align-items:center; gap:5px;
-    font-size:11px; font-weight:700; letter-spacing:.02em;
-    padding:3px 9px; border-radius:999px;
-  }
+  .badge{ display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:700; letter-spacing:.02em; padding:3px 9px; border-radius:999px;}
   .badge.booked{background:rgba(110,231,183,0.15); color:var(--aurora);}
   .badge.tobook{background:rgba(244,184,96,0.15); color:var(--amber);}
   .badge.planned{background:rgba(143,216,224,0.13); color:var(--ice);}
   .badge.tobuy{background:rgba(184,164,240,0.15); color:var(--violet);}
-
-  .reminder{
-    display:flex; gap:12px; padding:12px 14px; border-radius:12px;
-    background:rgba(255,122,122,0.06); border:1px solid rgba(255,122,122,0.18);
-    margin-bottom:8px; font-size:13.5px; line-height:1.5;
+  select.status-select{
+    font-family:'Inter',sans-serif; font-size:11px; font-weight:700; padding:4px 8px; border-radius:999px;
+    background:var(--bg3); color:var(--text); border:1px solid var(--border); cursor:pointer;
   }
+
+  .reminder{ display:flex; gap:12px; padding:12px 14px; border-radius:12px; background:rgba(255,122,122,0.06); border:1px solid rgba(255,122,122,0.18); margin-bottom:8px; font-size:13.5px; line-height:1.5; position:relative;}
   .reminder b{color:var(--red);}
   .reminder .txt{color:var(--text-dim);}
 
-  /* ---------- ITINERARY ---------- */
-  .day-card{
-    border-left:3px solid var(--aurora);
-    padding-left:16px; margin-bottom:26px; position:relative;
-  }
-  .day-head{
-    display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap;
-  }
-  .day-head .daynum{
-    font-family:'Fraunces',serif; font-weight:600; font-size:15px;
-    background:linear-gradient(135deg,var(--aurora),var(--ice));
-    color:#062018; padding:3px 12px; border-radius:999px;
-  }
+  .day-card{ border-left:3px solid var(--aurora); padding-left:16px; margin-bottom:26px; position:relative;}
+  .day-head{ display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap;}
+  .day-head .daynum{ font-family:'Fraunces',serif; font-weight:600; font-size:15px; background:linear-gradient(135deg,var(--aurora),var(--ice)); color:#062018; padding:3px 12px; border-radius:999px;}
   .day-head .daytitle{font-weight:700; font-size:16px;}
   .day-head .daysub{font-size:12px; color:var(--text-dimmer); width:100%; margin-left:2px;}
-  .stop{
-    display:grid; grid-template-columns:64px 1fr; gap:12px;
-    padding:10px 0; border-bottom:1px dashed var(--border-soft);
-  }
+  .stop{ display:grid; grid-template-columns:64px 1fr auto; gap:12px; padding:10px 0; border-bottom:1px dashed var(--border-soft); align-items:start;}
   .stop:last-child{border-bottom:none;}
   .stop .time{font-size:12.5px; color:var(--aurora); font-weight:700; padding-top:2px;}
   .stop .what{font-weight:600; font-size:14.5px; margin-bottom:2px;}
   .stop .notes{font-size:13px; color:var(--text-dim); line-height:1.5;}
-  .stop.hero{
-    background:rgba(110,231,183,0.06);
-    border-radius:10px; padding:10px 10px; margin: 2px 0;
-    border-bottom:none;
-  }
+  .stop.hero{ background:rgba(110,231,183,0.06); border-radius:10px; padding:10px 10px; margin: 2px 0; border-bottom:none;}
   .stop.warn .notes{color:var(--red);}
-  .tag-star{color:var(--amber);}
 
-  /* ---------- TABLE-ish rows (costs/food) ---------- */
-  .row-item{
-    display:flex; justify-content:space-between; align-items:flex-start; gap:12px;
-    padding:12px 0; border-bottom:1px solid var(--border-soft);
-  }
+  .row-item{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:12px 0; border-bottom:1px solid var(--border-soft);}
   .row-item:last-child{border-bottom:none;}
   .row-item .left{flex:1; min-width:0;}
   .row-item .name{font-weight:600; font-size:14px;}
   .row-item .notes{font-size:12.5px; color:var(--text-dim); margin-top:2px; line-height:1.45;}
-  .row-item .right{text-align:right; flex-shrink:0;}
+  .row-item .right{text-align:right; flex-shrink:0; display:flex; align-items:center; gap:8px;}
   .row-item .price{font-weight:700; font-size:14.5px; color:var(--aurora);}
   .row-item .price2{font-size:11px; color:var(--text-dimmer);}
 
-  .group-header{
-    font-size:12px; font-weight:800; letter-spacing:.08em; text-transform:uppercase;
-    color:var(--ice); margin:18px 0 6px; display:flex; align-items:center; gap:8px;
-  }
+  .group-header{ font-size:12px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--ice); margin:18px 0 6px; display:flex; align-items:center; gap:8px;}
   .group-header::after{content:""; flex:1; height:1px; background:var(--border-soft);}
 
-  .total-bar{
-    display:flex; justify-content:space-between; align-items:center;
-    padding:16px 18px; border-radius:14px; margin-top:8px;
-    background:linear-gradient(135deg, rgba(110,231,183,0.14), rgba(143,216,224,0.08));
-    border:1px solid rgba(110,231,183,0.3);
-  }
+  .total-bar{ display:flex; justify-content:space-between; align-items:center; padding:16px 18px; border-radius:14px; margin-top:8px;
+    background:linear-gradient(135deg, rgba(110,231,183,0.14), rgba(143,216,224,0.08)); border:1px solid rgba(110,231,183,0.3);}
   .total-bar .lbl{font-size:13px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.05em;}
   .total-bar .amt{font-family:'Fraunces',serif; font-size:26px; font-weight:700; color:var(--aurora);}
 
-  /* ---------- CHECKLIST / PACKING ---------- */
-  .check-item{
-    display:flex; align-items:flex-start; gap:12px;
-    padding:11px 0; border-bottom:1px solid var(--border-soft);
-    cursor:pointer;
-  }
+  .check-item{ display:flex; align-items:flex-start; gap:12px; padding:11px 0; border-bottom:1px solid var(--border-soft); cursor:pointer;}
   .check-item:last-child{border-bottom:none;}
-  .checkbox{
-    flex-shrink:0; width:21px; height:21px; border-radius:6px;
-    border:2px solid var(--text-dimmer); margin-top:1px;
-    display:flex; align-items:center; justify-content:center;
-    transition:.15s;
-  }
+  .checkbox{ flex-shrink:0; width:21px; height:21px; border-radius:6px; border:2px solid var(--text-dimmer); margin-top:1px; display:flex; align-items:center; justify-content:center; transition:.15s;}
   .checkbox.on{background:var(--aurora); border-color:var(--aurora);}
   .checkbox.on::after{content:"✓"; color:#062018; font-weight:800; font-size:13px;}
-  .check-item .txt{flex:1;}
+  .check-item .txt{flex:1; min-width:0;}
   .check-item .txt .name{font-size:14px; font-weight:600;}
   .check-item.done .txt .name{ text-decoration:line-through; color:var(--text-dimmer); }
   .check-item .txt .notes{font-size:12.5px; color:var(--text-dim); margin-top:2px; line-height:1.45;}
   .check-item .meta{font-size:11px; color:var(--text-dimmer); flex-shrink:0; text-align:right; white-space:nowrap; padding-top:2px;}
 
-  .price-pill{
-    font-size:11px; font-weight:700; color:var(--amber);
-    background:rgba(244,184,96,0.12); padding:2px 8px; border-radius:999px;
-  }
-  .own-pill{
-    font-size:11px; font-weight:700; color:var(--aurora);
-    background:rgba(110,231,183,0.12); padding:2px 8px; border-radius:999px;
-  }
+  .price-pill{ font-size:11px; font-weight:700; color:var(--amber); background:rgba(244,184,96,0.12); padding:2px 8px; border-radius:999px;}
+  .own-pill{ font-size:11px; font-weight:700; color:var(--aurora); background:rgba(110,231,183,0.12); padding:2px 8px; border-radius:999px;}
 
-  .subnote{
-    font-size:13px; color:var(--text-dim); line-height:1.6; margin-bottom:14px;
-    background:rgba(255,255,255,0.03); border:1px solid var(--border-soft);
-    padding:12px 14px; border-radius:12px;
-  }
+  .subnote{ font-size:13px; color:var(--text-dim); line-height:1.6; margin-bottom:14px; background:rgba(255,255,255,0.03); border:1px solid var(--border-soft); padding:12px 14px; border-radius:12px;}
   .subnote b{color:var(--ice);}
 
-  .who-toggle{
-    display:flex; gap:8px; margin-bottom:18px;
-  }
-  .who-toggle button{
-    flex:1; padding:10px; border-radius:12px; border:1px solid var(--border);
-    background:rgba(255,255,255,0.03); color:var(--text-dim); font-weight:700; font-size:13.5px;
-    cursor:pointer; font-family:'Inter',sans-serif;
-  }
-  .who-toggle button.active{
-    background:linear-gradient(135deg, rgba(110,231,183,0.18), rgba(143,216,224,0.10));
-    border-color:rgba(110,231,183,0.4); color:var(--aurora);
-  }
+  .who-toggle{display:flex; gap:8px; margin-bottom:18px;}
+  .who-toggle button{ flex:1; padding:10px; border-radius:12px; border:1px solid var(--border); background:rgba(255,255,255,0.03); color:var(--text-dim); font-weight:700; font-size:13.5px; cursor:pointer; font-family:'Inter',sans-serif;}
+  .who-toggle button.active{ background:linear-gradient(135deg, rgba(110,231,183,0.18), rgba(143,216,224,0.10)); border-color:rgba(110,231,183,0.4); color:var(--aurora);}
 
   .progress-wrap{margin-bottom:16px;}
-  .progress-track{
-    height:8px; border-radius:999px; background:rgba(255,255,255,0.06); overflow:hidden;
-  }
-  .progress-fill{
-    height:100%; background:linear-gradient(90deg,var(--aurora),var(--ice));
-    border-radius:999px; transition:width .4s ease;
-  }
+  .progress-track{ height:8px; border-radius:999px; background:rgba(255,255,255,0.06); overflow:hidden;}
+  .progress-fill{ height:100%; background:linear-gradient(90deg,var(--aurora),var(--ice)); border-radius:999px; transition:width .4s ease;}
   .progress-label{font-size:12px; color:var(--text-dimmer); margin-top:6px; text-align:right;}
 
-  footer{
-    text-align:center; color:var(--text-dimmer); font-size:12px; padding:30px 16px 10px;
-  }
-  .sync-dot{
-    display:inline-block; width:7px; height:7px; border-radius:50%;
-    background:var(--aurora); margin-right:6px; box-shadow:0 0 8px var(--aurora);
-  }
+  footer{ text-align:center; color:var(--text-dimmer); font-size:12px; padding:30px 16px 10px;}
+  .sync-dot{ display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--aurora); margin-right:6px; box-shadow:0 0 8px var(--aurora);}
   .sync-dot.off{background:var(--text-dimmer); box-shadow:none;}
 
-  .map-link{
-    display:inline-flex; align-items:center; gap:4px; font-size:12px; color:var(--ice);
-    text-decoration:none; margin-top:4px; font-weight:600;
+  /* ---------- EDIT MODE ---------- */
+  body.edit-mode .editable{
+    outline:1px dashed rgba(244,184,96,0.5); outline-offset:2px; border-radius:4px;
+    cursor:text; transition:.12s;
   }
+  body.edit-mode .editable:hover{ background:rgba(244,184,96,0.08); }
+  body.edit-mode .editable:focus{ outline:1.5px solid var(--amber); background:rgba(244,184,96,0.1); }
+  .del-btn{
+    display:none; flex-shrink:0; width:22px; height:22px; border-radius:50%;
+    background:rgba(255,122,122,0.15); color:var(--red); border:1px solid rgba(255,122,122,0.35);
+    font-size:13px; font-weight:800; line-height:1; align-items:center; justify-content:center; cursor:pointer;
+  }
+  body.edit-mode .del-btn{display:inline-flex;}
+  .add-btn{
+    display:none; width:100%; padding:10px; margin-top:2px; margin-bottom:12px;
+    border:1.5px dashed var(--border); border-radius:12px; background:transparent;
+    color:var(--text-dimmer); font-family:'Inter',sans-serif; font-weight:700; font-size:13px; cursor:pointer;
+  }
+  .add-btn:hover{ border-color:var(--aurora); color:var(--aurora); }
+  body.edit-mode .add-btn{display:block;}
+  .edit-hint{
+    display:none; font-size:12px; color:var(--amber); background:rgba(244,184,96,0.08);
+    border:1px solid rgba(244,184,96,0.25); border-radius:12px; padding:10px 14px; margin-bottom:16px;
+  }
+  body.edit-mode .edit-hint{display:block;}
+  .flag-row{display:none; gap:14px; margin-top:6px; font-size:11.5px; color:var(--text-dimmer);}
+  body.edit-mode .flag-row{display:flex;}
+  .flag-row label{display:flex; align-items:center; gap:4px; cursor:pointer;}
 </style>
 </head>
 <body>
@@ -311,6 +198,9 @@
     <div class="cd-box"><div class="num" id="cd-m">–</div><div class="lbl">min</div></div>
     <div class="cd-box"><div class="num" id="cd-s">–</div><div class="lbl">sec</div></div>
   </div>
+  <div>
+    <button class="edit-toggle" id="edit-toggle"><span class="dot"></span><span id="edit-toggle-label">Edit trip</span></button>
+  </div>
 </header>
 
 <nav class="tabs" id="tabs">
@@ -324,68 +214,39 @@
 
 <main>
 
-  <!-- ================= OVERVIEW ================= -->
   <section class="panel active" id="panel-overview">
+    <div class="edit-hint">Edit mode is on — tap any text to change it, use the × to delete, and + Add to add new rows. Changes save automatically for everyone.</div>
+
     <div class="section-title"><h2>Group &amp; logistics</h2></div>
-    <div class="card">
-      <div class="grid2">
-        <div class="kv"><span class="k">Travellers</span><span class="v">4 — 2 couples</span></div>
-        <div class="kv"><span class="k">Base</span><span class="v">Reykjavík, 101 area</span></div>
-        <div class="kv"><span class="k">Duration</span><span class="v">5 nights / 6 days</span></div>
-        <div class="kv"><span class="k">Sunrise / Sunset</span><span class="v">06:40 / 19:40</span></div>
-        <div class="kv"><span class="k">Weather baseline</span><span class="v">5–10°C, wind, rain likely</span></div>
-        <div class="kv"><span class="k">Currency</span><span class="v">ISK (~150/€1)</span></div>
-      </div>
-    </div>
+    <div class="card"><div class="grid2" id="ov-group"></div></div>
 
     <div class="section-title"><h2>Flights</h2></div>
-    <div class="card">
-      <div class="row-item">
-        <div class="left">
-          <div class="name">Outbound — DUB → KEF</div>
-          <div class="notes">Mon 15 Sep, 14:15 → 15:50 · Icelandair direct · 2h35m</div>
-        </div>
-        <div class="right"><span class="badge booked">Booked</span></div>
-      </div>
-      <div class="row-item">
-        <div class="left">
-          <div class="name">Return — KEF → DUB</div>
-          <div class="notes">Sat 20 Sep, 07:40 → 11:05 · check-in from 05:30</div>
-        </div>
-        <div class="right"><span class="badge booked">Booked</span></div>
-      </div>
-    </div>
+    <div class="card" id="ov-flights"></div>
+    <button class="add-btn" data-add="ov-flights">+ Add flight</button>
 
     <div class="section-title"><h2>Car — Lotus Car Rental</h2></div>
     <div class="card">
-      <div class="grid2">
-        <div class="kv"><span class="k">Ref</span><span class="v">AY2NQO</span></div>
-        <div class="kv"><span class="k">Vehicle</span><span class="v">Kia Sportage 4x4, auto</span></div>
-        <div class="kv"><span class="k">Pickup</span><span class="v">Mon 15, 17:00 · KEF shuttle</span></div>
-        <div class="kv"><span class="k">Drop-off</span><span class="v">Sat 20, ~05:00 · KEF</span></div>
-        <div class="kv"><span class="k">Insurance</span><span class="v">Platinum — zero excess</span></div>
-        <div class="kv"><span class="k">Drivers</span><span class="v">Aadi + 1, both on file</span></div>
-      </div>
-      <div class="subnote" style="margin-top:12px; margin-bottom:0;">
-        Indian driving licence in English accepted — no IDP required. Two drivers mandatory Day 2 &amp; Day 4, swap every ~2 hrs. Fuel is <b>petrol</b> (green nozzle) — never diesel.
-      </div>
+      <div class="grid2" id="ov-car"></div>
+      <div class="subnote editable" contenteditable="false" data-path='["overview","carNote"]' style="margin-top:12px; margin-bottom:0;"></div>
     </div>
 
     <div class="section-title"><h2>Don't forget</h2></div>
-    <div class="reminder"><span class="txt"><b>Reynisfjara:</b> stay 30+ m from the waterline — sneaker waves are fatal most years. Check the flag at the entrance.</span></div>
-    <div class="reminder"><span class="txt"><b>Sheep on roads:</b> slow down at dawn/dusk, especially on the south coast.</span></div>
-    <div class="reminder"><span class="txt"><b>Weather:</b> check vedur.is + road.is every morning before 07:00.</span></div>
-    <div class="reminder"><span class="txt"><b>Aurora:</b> check KP index nightly — Grótta Lighthouse is 15 min from downtown, dark sky.</span></div>
+    <div id="ov-reminders"></div>
+    <button class="add-btn" data-add="ov-reminders">+ Add reminder</button>
   </section>
 
-  <!-- ================= ITINERARY ================= -->
-  <section class="panel" id="panel-itinerary"></section>
+  <section class="panel" id="panel-itinerary">
+    <div class="edit-hint">Tap times / activities / notes to edit. Use the flags to mark a stop as ⭐ highlight or ⚠️ warning.</div>
+    <div id="itinerary-content"></div>
+  </section>
 
-  <!-- ================= COSTS ================= -->
-  <section class="panel" id="panel-costs"></section>
+  <section class="panel" id="panel-costs">
+    <div class="edit-hint">Change status with the dropdown, tap prices/notes to edit, + Add for a new line item.</div>
+    <div id="costs-content"></div>
+  </section>
 
-  <!-- ================= PACKING ================= -->
   <section class="panel" id="panel-packing">
+    <div class="edit-hint">Tap items to edit, tick to mark packed — ticks sync live for everyone.</div>
     <div class="who-toggle" id="packing-who">
       <button data-who="aadi" class="active">Aadi</button>
       <button data-who="krithika">Krithika</button>
@@ -397,11 +258,13 @@
     <div id="packing-content"></div>
   </section>
 
-  <!-- ================= FOOD ================= -->
-  <section class="panel" id="panel-food"></section>
+  <section class="panel" id="panel-food">
+    <div class="edit-hint">Tap to edit any restaurant, price, or tip.</div>
+    <div id="food-content"></div>
+  </section>
 
-  <!-- ================= CHECKLIST ================= -->
   <section class="panel" id="panel-checklist">
+    <div class="edit-hint">Tap to edit, tick when done — syncs live for everyone.</div>
     <div class="progress-wrap">
       <div class="progress-track"><div class="progress-fill" id="check-progress-fill" style="width:0%"></div></div>
       <div class="progress-label" id="check-progress-label">0 / 0 done</div>
@@ -418,7 +281,7 @@
 
 <script>
 /* =========================================================
-   SUPABASE SYNC
+   SUPABASE
    ========================================================= */
 const SUPABASE_URL = "https://imagihnssgllampaqfbm.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImltYWdpaG5zc2dsbGFtcGFxZmJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODczMDI3MTYsImV4cCI6MjEwMjg3ODcxNn0.kkwufqMvIgvKALjXyBPTEFoHvgxUhxxUabutddqgQac";
@@ -426,361 +289,561 @@ const ROW_ID = "iceland-2026";
 let sb = null;
 try { sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch(e) { console.warn("Supabase init failed", e); }
 
-let CHECKS = {}; // { itemId: true/false }
+let CHECKS = {};
+let DATA = null;
 let saveTimer = null;
+let editMode = false;
 
-async function loadChecks(){
+/* =========================================================
+   DEFAULT CONTENT (seeds Supabase on first load only)
+   ========================================================= */
+const DEFAULT_DATA = {
+  overview: {
+    group: [
+      {k:"Travellers", v:"4 — 2 couples"}, {k:"Base", v:"Reykjavík, 101 area"},
+      {k:"Duration", v:"5 nights / 6 days"}, {k:"Sunrise / Sunset", v:"06:40 / 19:40"},
+      {k:"Weather baseline", v:"5–10°C, wind, rain likely"}, {k:"Currency", v:"ISK (~150/€1)"},
+    ],
+    flights: [
+      {name:"Outbound — DUB → KEF", notes:"Mon 15 Sep, 14:15 → 15:50 · Icelandair direct · 2h35m", status:"booked"},
+      {name:"Return — KEF → DUB", notes:"Sat 20 Sep, 07:40 → 11:05 · check-in from 05:30", status:"booked"},
+    ],
+    car: [
+      {k:"Ref", v:"AY2NQO"}, {k:"Vehicle", v:"Kia Sportage 4x4, auto"},
+      {k:"Pickup", v:"Mon 15, 17:00 · KEF shuttle"}, {k:"Drop-off", v:"Sat 20, ~05:00 · KEF"},
+      {k:"Insurance", v:"Platinum — zero excess"}, {k:"Drivers", v:"Aadi + 1, both on file"},
+    ],
+    carNote: "Indian driving licence in English accepted — no IDP required. Two drivers mandatory Day 2 & Day 4, swap every ~2 hrs. Fuel is petrol (green nozzle) — never diesel.",
+    reminders: [
+      {label:"Reynisfjara", text:"Stay 30+ m from the waterline — sneaker waves are fatal most years. Check the flag at the entrance."},
+      {label:"Sheep on roads", text:"Slow down at dawn/dusk, especially on the south coast."},
+      {label:"Weather", text:"Check vedur.is + road.is every morning before 07:00."},
+      {label:"Aurora", text:"Check the KP index nightly — Grótta Lighthouse is 15 min from downtown, dark sky."},
+    ],
+  },
+
+  itinerary: [
+    { day:"Day 1", date:"Mon 15 Sept", title:"Arrival", sub:"Land, collect car, groceries, easy first evening",
+      stops:[
+        {t:"14:15–15:50", w:"Flight DUB → KEF", n:"Icelandair direct, same timezone as Dublin."},
+        {t:"16:00", w:"Immigration, bags, Lotus shuttle", n:"Walk outside terminal for the free shuttle. Ref AY2NQO."},
+        {t:"17:00", w:"Pick up Kia Sportage", n:"Bring Indian DL, passport, IRP, credit card in Aadi's name."},
+        {t:"18:00", w:"Bónus grocery run", n:"Skyr, bread, eggs, pasta, snacks, sandwich stuff for tomorrow."},
+        {t:"19:30", w:"Downtown stroll + dinner", n:"Hallgrímskirkja (outside), Sun Voyager, Harpa. Dinner: Hraðlestin or Indian Mango."},
+        {t:"22:30", w:"Bed", n:"Tomorrow is the long Diamond Beach day — 06:30 wake."},
+      ]},
+    { day:"Day 2", date:"Tue 16 Sept", title:"Diamond Beach + Amphibian Boat ⭐", sub:"~14 hrs · two drivers · biggest driving day of the trip",
+      stops:[
+        {t:"06:30", w:"Wake, breakfast in car", n:"Cereal + skyr from the Bónus haul."},
+        {t:"07:40", w:"Leave Reykjavík — Driver 1", n:"Head east on Route 1."},
+        {t:"09:30", w:"Fuel + toilet, N1 Vík", n:"Swap drivers. 15 min max.", warn:true},
+        {t:"12:00", w:"Arrive Jökulsárlón — Diamond Beach photos", n:"Beat the tour buses, layer up — it's windy."},
+        {t:"13:00", w:"Lunch", n:"Jökulsárlón café (fish stew ~€20) or packed sandwiches."},
+        {t:"14:00", w:"Amphibian boat ⭐ — BOOKED", n:"40 min on the lagoon among icebergs.", hero:true},
+        {t:"14:45", w:"More lagoon photos + hot chocolate", n:"Photograph seals if you're lucky."},
+        {t:"15:30", w:"Fjaðrárgljúfur canyon stop", n:"30 min, free, stunning green canyon."},
+        {t:"19:15", w:"Coffee/toilet Vík", n:"Driver swap.", warn:true},
+        {t:"21:30", w:"Back in Reykjavík", n:"Dinner from Bónus haul — too tired to eat out."},
+        {t:"23:00", w:"Bed", n:"8 hrs before the chill day."},
+      ]},
+    { day:"Day 3", date:"Wed 17 Sept", title:"Golden Circle + Secret Lagoon", sub:"Slow recovery day — sleep in, savour it",
+      stops:[
+        {t:"08:30", w:"Wake, slow breakfast", n:"Take your time — recovery day."},
+        {t:"09:15–10:30", w:"Bathroom rotation, get ready", n:"Full routine for 4 people, 1 bathroom."},
+        {t:"11:15", w:"Þingvellir", n:"UNESCO tectonic-plate rift walk, Almannagjá, Öxarárfoss. 1.5 hrs, no rush."},
+        {t:"13:30", w:"Lunch — Efstidalur II", n:"Dairy farm restaurant, unlimited soup + bread, homemade ice cream. Book ahead.", hero:true},
+        {t:"15:20", w:"Geysir", n:"Strokkur erupts every 5–10 min. ~55 min."},
+        {t:"16:30", w:"Gullfoss", n:"Upper + lower viewpoints, best afternoon light. 1 hr."},
+        {t:"18:00", w:"Secret Lagoon, Flúðir ⭐ — BOOKED", n:"2 hrs. Steam glows at dusk — magical photos.", hero:true},
+        {t:"20:30", w:"Kerið crater", n:"Quick dusk stop, red rock + turquoise lake. 15 min."},
+        {t:"21:45", w:"Back in Reykjavík, light dinner", n:"Bónus food or a sandwich — no need to go out."},
+        {t:"23:00", w:"Bed", n:"9+ hrs before the long Vík day."},
+      ]},
+    { day:"Day 4", date:"Thu 18 Sept", title:"Vík: waterfalls + Reynisfjara + Katla ⭐", sub:"~15 hrs · longest day of the trip",
+      stops:[
+        {t:"06:30", w:"Wake, breakfast + bathroom rotation", n:"Long day — earlier start."},
+        {t:"08:00", w:"Leave Reykjavík — Driver 1", n:""},
+        {t:"09:45", w:"Seljalandsfoss", n:"Walk BEHIND the waterfall. Waterproofs on — you will get wet.", hero:true},
+        {t:"11:30", w:"Arrive Vík", n:""},
+        {t:"12:00", w:"Lunch in Vík", n:"Smiðjan Brugghús (burgers) or Halldórskaffi. Relaxed 1.5 hrs."},
+        {t:"13:30", w:"Reynisfjara black sand beach", n:"⚠️ Stay 30+ m from the water. Check the flag. Red = stay off the sand.", warn:true},
+        {t:"14:20", w:"Arrive Katla meet point", n:"Buffer time, gear check."},
+        {t:"15:00", w:"Katla Ice Cave tour ⭐ — BOOKED", n:"3 hrs, Super Jeep + guided cave. Warm layers essential.", hero:true},
+        {t:"19:00", w:"Skógafoss — golden hour ⭐", n:"South-facing waterfall in evening light. Best photos of the trip.", hero:true},
+        {t:"22:00", w:"Back in Reykjavík", n:"Swap drivers on the way, watch for sheep."},
+        {t:"23:00", w:"Quick dinner + bed", n:"Bónus food + hot showers."},
+      ]},
+    { day:"Day 5", date:"Fri 19 Sept", title:"Reykjavík + Reykjanes + Blue Lagoon", sub:"Chill morning, Reykjanes on the way south, sunset soak",
+      stops:[
+        {t:"09:00", w:"Sleep in, slow breakfast", n:"Bathroom rotation, no rush."},
+        {t:"11:00", w:"Hallgrímskirkja tower", n:"€10 for the panoramic view. Skip if the queue is long."},
+        {t:"12:00", w:"Sun Voyager + Harpa + Laugavegur shopping", n:"66°North, Rammagerðin for souvenirs."},
+        {t:"13:15", w:"Lunch — Café Loki or Sægreifinn", n:"Icelandic bites / lobster soup. Relaxed."},
+        {t:"15:15", w:"Bridge Between Continents", n:"Walk between the tectonic plates on Reykjanes. 30 min."},
+        {t:"16:00", w:"Gunnuhver hot springs", n:"Steaming mud pots, sulphur smell — proper Iceland. 30 min."},
+        {t:"16:45", w:"Reykjanesviti lighthouse", n:"Quick photo stop, Iceland's oldest lighthouse."},
+        {t:"17:30", w:"Blue Lagoon Comfort ⭐", n:"2.5 hrs. Silica mask, drink, scrub. Sunset soak — condition hair first, keep it in a bun.", hero:true},
+        {t:"20:30", w:"Drive back, final dinner", n:"Austur Indíafélagið (splurge) or Mama Reykjavík (vegan). Book ahead."},
+        {t:"23:00", w:"Pack everything", n:"04:30 wake tomorrow — lay out clothes tonight."},
+      ]},
+    { day:"Day 6", date:"Sat 20 Sept", title:"Departure", sub:"",
+      stops:[
+        {t:"04:30", w:"Wake, coffee", n:""},
+        {t:"05:00", w:"Drop off Kia Sportage at Lotus", n:"Photograph every panel before handing over keys."},
+        {t:"05:30", w:"Shuttle to KEF terminal", n:"Free with Lotus."},
+        {t:"06:00", w:"Check-in + security", n:""},
+        {t:"07:40", w:"Flight KEF → DUB", n:"Land Dublin 11:05. Home."},
+      ]},
+  ],
+
+  costs: {
+    shared: [
+      { group:"Visa & travel insurance", items:[ {name:"Schengen visa (all 4)", notes:"Approved, valid 15 Sep – 29 Oct 2026", status:"booked", pp:165, total:660} ]},
+      { group:"Flights", items:[ {name:"Icelandair DUB ⇄ KEF return", notes:"15 Sep 14:15 out · 20 Sep 07:40 back", status:"booked", pp:279, total:1116} ]},
+      { group:"Accommodation", items:[ {name:"Reykjavík Airbnb — 5 nights", notes:"2BR in 101, sleeps 4, kitchen, parking", status:"booked", pp:182, total:728} ]},
+      { group:"Car, fuel & driving", items:[
+        {name:"Kia Sportage 4x4 rental", notes:"Lotus, ref AY2NQO", status:"booked", pp:117, total:468},
+        {name:"Platinum insurance", notes:"Zero excess, animal / gravel / sand-ash cover", status:"booked", pp:64, total:256},
+        {name:"Fuel", notes:"~2,500 km, 7% Lotus discount applied", status:"planned", pp:77, total:308},
+        {name:"Road tax + extra driver", notes:"Included in booking", status:"booked", pp:24, total:96},
+        {name:"Parking at sights", notes:"Þingvellir, Gullfoss, waterfalls — €5–7 each", status:"planned", pp:8, total:32},
+      ]},
+      { group:"Attractions & tours", items:[
+        {name:"Amphibian boat, Jökulsárlón", notes:"Tue 16, 14:00, 40 min", status:"booked", pp:51, total:204},
+        {name:"Katla Ice Cave tour", notes:"Thu 18, 15:00, 3 hrs", status:"booked", pp:100, total:400},
+        {name:"Secret Lagoon, Flúðir", notes:"Wed 17, 18:00", status:"booked", pp:32, total:128},
+        {name:"Blue Lagoon Comfort", notes:"Fri 19, 17:30", status:"tobook", pp:85, total:340},
+        {name:"Kerið crater + Hallgrímskirkja tower", notes:"€4 + €10 pp", status:"planned", pp:14, total:56},
+      ]},
+      { group:"Food", items:[
+        {name:"Groceries (Bónus)", notes:"Breakfasts + packed lunches, 5 days", status:"planned", pp:15, total:60},
+        {name:"Efstidalur II lunch (Wed)", notes:"Unlimited soup + ice cream", status:"tobook", pp:22, total:88},
+        {name:"Indian/veg dinners x2", notes:"Hraðlestin, Indian Mango, Gandhi", status:"planned", pp:35, total:140},
+        {name:"Vík lunch (Day 4)", notes:"Smiðjan Brugghús / Halldórskaffi", status:"planned", pp:25, total:100},
+        {name:"Casual meals + final dinner", notes:"Café Loki, snacks, splurge dinner Fri", status:"planned", pp:61, total:244},
+      ]},
+      { group:"Misc", items:[
+        {name:"Souvenirs", notes:"66°North, Rammagerðin, lopapeysa", status:"planned", pp:40, total:160},
+        {name:"eSIM (Airalo)", notes:"7-day Iceland data", status:"tobook", pp:15, total:60},
+        {name:"Buffer", notes:"Iceland always costs a bit more than planned", status:"planned", pp:60, total:240},
+      ]},
+    ],
+    personal: [
+      { who:"Aadi", est:131, note:"Owns base layers, sweaters, waterproof jacket already — spend is trousers, over-trousers, socks, gloves, anti-perspirant." },
+      { who:"Krithika", est:358, note:"Template — she should confirm what she already owns before buying anything." },
+    ]
+  },
+
+  packing: {
+    aadi: {
+      strategy:"Own most of the kit already — Jockey/Warmline base layers, three sweaters, a waterproof Primark jacket. Shopping list is short.",
+      groups:[
+        { g:"Already own — bring these", items:[
+          {id:"a-base-jockey", name:"Jockey 2604 microfiber base top + bottom", notes:"Wicking, snug fit — wear on Diamond Beach & Katla days.", own:true},
+          {id:"a-base-warmline", name:"Warmline polywool base top + bottom", notes:"Slightly warmer, wear on chill days.", own:true},
+          {id:"a-sweater-black", name:"Black acrylic-merino sweater", notes:"70/30 blend — main sweater for marathon days.", own:true},
+          {id:"a-sweater-grey", name:"Grey Apt.9 acrylic-merino sweater", notes:"Backup + Day 5 city.", own:true},
+          {id:"a-sweater-rust", name:"Rust Next cotton-nylon sweater", notes:"Photo hero for Day 3 (chill day only).", own:true},
+          {id:"a-jacket", name:"Primark waterproof jacket, fleece-lined", notes:"Confirmed waterproof tag + built-in fleece lining. This is outer AND mid layer.", own:true},
+          {id:"a-boots", name:"Decathlon MH500 waterproof mid-cut boots", notes:"Grip on wet rocks.", own:true},
+        ]},
+        { g:"To buy", items:[
+          {id:"a-trousers-black", name:"1× black slim trousers", notes:"Karrimor Panther, Sports Direct — for Diamond Beach & Katla days.", price:22},
+          {id:"a-trousers-beige", name:"1× beige/khaki slim trousers", notes:"Karrimor Panther, Sports Direct — chill/photo days.", price:23},
+          {id:"a-overtrousers", name:"Waterproof over-trousers", notes:"Decathlon Quechua NH500 rain — only for Seljalandsfoss + heavy rain.", price:25},
+          {id:"a-socks", name:"Hiking socks ×5 (mixed)", notes:"Karrimor Merino Fusion 2-pack + Penneys thermal 3-pack.", price:18},
+          {id:"a-gloves", name:"Wedze Firstheat ski gloves", notes:"Waterproof, warm enough for the ice cave.", price:15},
+          {id:"a-beanie", name:"Wool beanie, plain dark", notes:"Penneys — photo-friendly, no logo.", price:5},
+          {id:"a-buff", name:"Fleece buff / neck warmer", notes:"Wind protection at Reynisfjara & Skógafoss.", price:5},
+        ]},
+        { g:"Sweat management", items:[
+          {id:"a-driclor", name:"Driclor anti-perspirant", notes:"Apply nightly for 5–7 nights before flying. Cuts baseline sweating significantly. Boots pharmacy.", price:10},
+          {id:"a-pads", name:"Underarm sweat pads ×2 packs", notes:"Stick inside base layer, absorb before it reaches sweater.", price:8},
+        ]},
+        { g:"Daily care routine", items:[
+          {id:"a-care-1", name:"Boots off, stuff with tissue, near radiator", notes:""},
+          {id:"a-care-2", name:"Hang base layer / hoodie / trousers to air overnight", notes:""},
+          {id:"a-care-3", name:"Sink-wash today's socks + underwear", notes:"Soap, wring hard, hang on shower rail."},
+          {id:"a-care-4", name:"Sniff-test base layer each morning", notes:"Rinse if needed, otherwise wear again."},
+        ]},
+      ],
+      total:"~€131"
+    },
+    krithika: {
+      strategy:"Template only — confirm what you already own before buying anything on this list.",
+      groups:[
+        { g:"Top layers", items:[
+          {id:"k-base", name:"Base layer top ×2", notes:"Decathlon women's Kalenji/Domyos, or confirm if you already own thermals.", price:30},
+          {id:"k-fleece", name:"Fleece or cardigan", notes:"Mid layer — check if a sweater you own already does this job.", price:15},
+          {id:"k-jacket", name:"Waterproof jacket", notes:"Only if you don't already have one — check tag for waterproof rating.", price:65},
+        ]},
+        { g:"Bottom layers", items:[
+          {id:"k-leggings", name:"Thermal leggings", notes:"Invisible under trousers, for cold days.", price:10},
+          {id:"k-trousers", name:"Hiking trousers ×2, dark", notes:"Decathlon Quechua NH500 or Uniqlo HEATTECH slim.", price:60},
+          {id:"k-overtrousers", name:"Waterproof over-trousers", notes:"Seljalandsfoss + heavy rain only.", price:25},
+        ]},
+        { g:"Feet", items:[
+          {id:"k-boots", name:"Waterproof hiking boots, mid-cut", notes:"Decathlon MH500 or NH500 women's.", price:60},
+          {id:"k-socks", name:"Hiking socks ×3", notes:"Rotate + sink-wash nightly.", price:30},
+        ]},
+        { g:"Accessories", items:[
+          {id:"k-beanie", name:"Wool beanie, dark/plain", notes:"Penneys / Dunnes / H&M.", price:5},
+          {id:"k-scarf", name:"Chunky knit scarf", notes:"Photo hero for Kirkjufell / Diamond Beach shots.", price:10},
+          {id:"k-buff", name:"Fleece buff / neck warmer", notes:"", price:5},
+          {id:"k-gloves", name:"Touchscreen warm gloves", notes:"Decathlon Quechua or Regatta.", price:15},
+        ]},
+        { g:"Blue Lagoon specific", items:[
+          {id:"k-swim", name:"Swimwear", notes:"Wear under clothes to avoid changing-room hassle.", price:0},
+          {id:"k-hair", name:"Hair care — conditioner", notes:"Apply BEFORE entering, keep hair in a bun, don't dunk. Silica damages hair otherwise.", price:5},
+          {id:"k-flip", name:"Flip-flops", notes:"Locker room to lagoon walk.", price:5},
+        ]},
+        { g:"Personal extras", items:[
+          {id:"k-moist", name:"Moisturiser + lip balm", notes:"Iceland wind cracks skin fast — essential.", price:10},
+          {id:"k-spf", name:"SPF 30 sunscreen", notes:"UV bounces off water/ice even in September.", price:8},
+        ]},
+      ],
+      total:"~€358 (template — will drop once confirmed)"
+    }
+  },
+
+  food: [
+    { group:"Groceries — Bónus (yellow pig logo)", items:[
+      {name:"Skyr, bread, eggs, butter", notes:"Breakfast basics", price:"€20"},
+      {name:"Sandwich stuff", notes:"Pack lunches for driving days", price:"€15"},
+      {name:"Pasta + jarred sauce", notes:"Cheap Airbnb dinner", price:"€8"},
+      {name:"Fruit, snack bars, coffee", notes:"For the road", price:"€25"},
+      {name:"Water bottles", notes:"Skip — tap water is the cleanest in the world", price:"€0"},
+    ]},
+    { group:"Restaurants", items:[
+      {name:"Day 1 — Hraðlestin / Indian Mango", notes:"Indian veg thali, Laugavegur", price:"€25pp"},
+      {name:"Day 3 — Efstidalur II", notes:"Unlimited soup + bread + farm ice cream", price:"€22pp"},
+      {name:"Day 4 — Smiðjan Brugghús / Halldórskaffi", notes:"Vík, burgers + craft beer", price:"€25pp"},
+      {name:"Day 5 lunch — Café Loki / Sægreifinn", notes:"Icelandic bites / lobster soup", price:"€15pp"},
+      {name:"Day 5 final dinner — Austur Indíafélagið", notes:"Fine-dining Indian splurge, or Mama Reykjavík (vegan)", price:"€40pp"},
+    ]},
+    { group:"Coffee & snacks", items:[
+      {name:"Reykjavík Roasters", notes:"Best coffee in the city, Kárastígur 1", price:"€6"},
+      {name:"Braud & Co", notes:"Cinnamon buns + sourdough, Frakkastígur 16", price:"€5"},
+      {name:"N1 station coffee", notes:"Surprisingly good road-trip standard", price:"€4"},
+    ]},
+  ],
+
+  checklist: [
+    { g:"Bookings — highest priority", items:[
+      {id:"c-blue", name:"Book Blue Lagoon Comfort", notes:"Fri 19 Sep, 17:30 slot — bluelagoon.com", deadline:"Now"},
+      {id:"c-efsti", name:"Book Efstidalur II lunch", notes:"Wed 17 Sep, 13:30 — efstidalur.is", deadline:"1 week before"},
+      {id:"c-lotus", name:"Confirm Lotus drop-off time", notes:"Awaiting Joanna's reply on office hours for 07:40 flight", deadline:"Waiting reply"},
+      {id:"c-dinner", name:"Reserve final dinner", notes:"Austur Indíafélagið or Mama Reykjavík, Fri 19", deadline:"1 week before"},
+    ]},
+    { g:"Shopping", items:[
+      {id:"c-trousers", name:"Buy trousers — 1 black + 1 beige", notes:"Karrimor Panther, Sports Direct", deadline:"2 weeks before"},
+      {id:"c-decathlon", name:"Decathlon run", notes:"Over-trousers, gloves, socks top-up", deadline:"2 weeks before"},
+      {id:"c-driclor", name:"Buy Driclor + sweat pads", notes:"Boots pharmacy — start applying nightly ASAP", deadline:"This week"},
+      {id:"c-krithika-review", name:"Krithika reviews her packing list", notes:"Confirm what she already owns", deadline:"This week"},
+    ]},
+    { g:"Digital prep", items:[
+      {id:"c-apps", name:"Download apps", notes:"Vedur, Umferðin (road.is), 112 Iceland, My Aurora Forecast, Parka", deadline:"1 week before"},
+      {id:"c-maps", name:"Download offline Google Maps", notes:"Reykjavík to Jökulsárlón corridor", deadline:"1 week before"},
+      {id:"c-esim", name:"Buy Airalo eSIM", notes:"Install, don't activate until landing", deadline:"Day before"},
+      {id:"c-pdfs", name:"Save all confirmations as PDF", notes:"Flights, Lotus, Airbnb, all tours", deadline:"Day before"},
+    ]},
+    { g:"Financial", items:[
+      {id:"c-pin", name:"Confirm Revolut has a 4-digit PIN", notes:"Test at a Dublin ATM — mandatory for Iceland pumps", deadline:"1 week before"},
+      {id:"c-bank", name:"Notify bank of travel", notes:"Prevents card blocking", deadline:"1 week before"},
+      {id:"c-limit", name:"Check credit card limit", notes:"Lotus deposit needs headroom if not on Platinum", deadline:"1 week before"},
+    ]},
+    { g:"Packing", items:[
+      {id:"c-dl", name:"Original Indian DL in wallet", notes:"Not checked luggage — both drivers", deadline:"Night before"},
+      {id:"c-passport", name:"Passports + IRP cards", notes:"Both couples", deadline:"Night before"},
+      {id:"c-pouch", name:"Waterproof phone pouch for Blue Lagoon", notes:"Or buy on-site for €12", deadline:"Night before"},
+    ]},
+    { g:"Departure day — 15 Sept", items:[
+      {id:"c-checkin", name:"Online check-in", notes:"24 hrs before, Icelandair app", deadline:"14 Sep"},
+      {id:"c-leave", name:"Leave home 09:30", notes:"Dublin airport 90 min before flight", deadline:"15 Sep"},
+      {id:"c-shuttle", name:"Walk to Lotus shuttle at KEF", notes:"Outside terminal, not inside", deadline:"15 Sep, 16:00"},
+      {id:"c-inspect", name:"Photograph every car panel before driving off", notes:"Protects you at drop-off", deadline:"15 Sep, 17:00"},
+    ]},
+  ],
+};
+
+/* =========================================================
+   PATH HELPERS
+   ========================================================= */
+function getByPath(obj, path){ return path.reduce((o,k)=> (o==null?undefined:o[k]), obj); }
+function setByPath(obj, path, value){
+  let o = obj;
+  for(let i=0;i<path.length-1;i++){ o = o[path[i]]; }
+  o[path[path.length-1]] = value;
+}
+function delAt(obj, path, index){
+  const arr = getByPath(obj, path);
+  if(Array.isArray(arr)) arr.splice(index,1);
+}
+function newId(prefix){ return prefix + '-' + Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+
+/* =========================================================
+   SUPABASE LOAD / SAVE
+   ========================================================= */
+async function loadAll(){
   const dot = document.getElementById('sync-dot');
   const txt = document.getElementById('sync-text');
-  if(!sb){ txt.textContent = "Offline mode (no sync)"; dot.classList.add('off'); return; }
+  if(!sb){ txt.textContent = "Offline mode (no sync)"; dot.classList.add('off');
+    DATA = JSON.parse(JSON.stringify(DEFAULT_DATA));
+    CHECKS = JSON.parse(localStorage.getItem('iceland_checks_fallback') || '{}');
+    return;
+  }
   try{
-    const { data, error } = await sb.from('iceland_trip_data').select('checks').eq('id', ROW_ID).single();
+    const { data, error } = await sb.from('iceland_trip_data').select('data,checks').eq('id', ROW_ID).single();
     if(error) throw error;
     CHECKS = (data && data.checks) || {};
+    if(data && data.data && Object.keys(data.data).length > 0){
+      DATA = data.data;
+    } else {
+      // first run — seed Supabase with defaults
+      DATA = JSON.parse(JSON.stringify(DEFAULT_DATA));
+      await sb.from('iceland_trip_data').update({ data: DATA, updated_at: new Date().toISOString() }).eq('id', ROW_ID);
+    }
     txt.textContent = "Synced — shared with the group";
   }catch(e){
     console.warn(e);
     txt.textContent = "Offline mode (no sync)";
     dot.classList.add('off');
+    DATA = JSON.parse(JSON.stringify(DEFAULT_DATA));
     CHECKS = JSON.parse(localStorage.getItem('iceland_checks_fallback') || '{}');
   }
 }
 
-function persistChecks(){
+function persistAll(){
   localStorage.setItem('iceland_checks_fallback', JSON.stringify(CHECKS));
+  localStorage.setItem('iceland_data_fallback', JSON.stringify(DATA));
   if(!sb) return;
   clearTimeout(saveTimer);
   saveTimer = setTimeout(async () => {
     try{
-      await sb.from('iceland_trip_data').update({ checks: CHECKS, updated_at: new Date().toISOString() }).eq('id', ROW_ID);
+      await sb.from('iceland_trip_data').update({ data: DATA, checks: CHECKS, updated_at: new Date().toISOString() }).eq('id', ROW_ID);
     }catch(e){ console.warn("save failed", e); }
-  }, 400);
+  }, 500);
 }
 
 function toggleCheck(id){
   CHECKS[id] = !CHECKS[id];
-  persistChecks();
+  persistAll();
   renderChecklist();
   renderPacking();
 }
 
 /* =========================================================
-   DATA
+   EDIT MODE — generic bindings
    ========================================================= */
+function editableSpan(path, value, extraClass){
+  const p = JSON.stringify(path).replace(/"/g,'&quot;');
+  return `<span class="editable ${extraClass||''}" data-path='${p}' contenteditable="${editMode}" data-numeric="${extraClass==='numeric'?'1':'0'}">${value==null?'':value}</span>`;
+}
 
-const ITINERARY = [
-  { day:"Day 1", date:"Mon 15 Sept", title:"Arrival", sub:"Land, collect car, groceries, easy first evening",
-    stops:[
-      {t:"14:15–15:50", w:"Flight DUB → KEF", n:"Icelandair direct, same timezone as Dublin."},
-      {t:"16:00", w:"Immigration, bags, Lotus shuttle", n:"Walk outside terminal for the free shuttle. Ref AY2NQO."},
-      {t:"17:00", w:"Pick up Kia Sportage", n:"Bring Indian DL, passport, IRP, credit card in Aadi's name."},
-      {t:"18:00", w:"Bónus grocery run", n:"Skyr, bread, eggs, pasta, snacks, sandwich stuff for tomorrow."},
-      {t:"19:30", w:"Downtown stroll + dinner", n:"Hallgrímskirkja (outside), Sun Voyager, Harpa. Dinner: Hraðlestin or Indian Mango."},
-      {t:"22:30", w:"Bed", n:"Tomorrow is the long Diamond Beach day — 06:30 wake."},
-    ]},
-  { day:"Day 2", date:"Tue 16 Sept", title:"Diamond Beach + Amphibian Boat ⭐", sub:"~14 hrs · two drivers · biggest driving day of the trip",
-    stops:[
-      {t:"06:30", w:"Wake, breakfast in car", n:"Cereal + skyr from the Bónus haul."},
-      {t:"07:40", w:"Leave Reykjavík — Driver 1", n:"Head east on Route 1."},
-      {t:"09:30", w:"Fuel + toilet, N1 Vík", n:"Swap drivers. 15 min max.", warn:true},
-      {t:"12:00", w:"Arrive Jökulsárlón — Diamond Beach photos", n:"Beat the tour buses, layer up — it's windy."},
-      {t:"13:00", w:"Lunch", n:"Jökulsárlón café (fish stew ~€20) or packed sandwiches."},
-      {t:"14:00", w:"Amphibian boat ⭐ — BOOKED", n:"40 min on the lagoon among icebergs.", hero:true},
-      {t:"14:45", w:"More lagoon photos + hot chocolate", n:"Photograph seals if you're lucky."},
-      {t:"15:30", w:"Fjaðrárgljúfur canyon stop", n:"30 min, free, stunning green canyon."},
-      {t:"19:15", w:"Coffee/toilet Vík", n:"Driver swap.", warn:true},
-      {t:"21:30", w:"Back in Reykjavík", n:"Dinner from Bónus haul — too tired to eat out."},
-      {t:"23:00", w:"Bed", n:"8 hrs before the chill day."},
-    ]},
-  { day:"Day 3", date:"Wed 17 Sept", title:"Golden Circle + Secret Lagoon", sub:"Slow recovery day — sleep in, savour it",
-    stops:[
-      {t:"08:30", w:"Wake, slow breakfast", n:"Take your time — recovery day."},
-      {t:"09:15–10:30", w:"Bathroom rotation, get ready", n:"Full routine for 4 people, 1 bathroom."},
-      {t:"11:15", w:"Þingvellir", n:"UNESCO tectonic-plate rift walk, Almannagjá, Öxarárfoss. 1.5 hrs, no rush."},
-      {t:"13:30", w:"Lunch — Efstidalur II", n:"Dairy farm restaurant, unlimited soup + bread, homemade ice cream. Book ahead.", hero:true},
-      {t:"15:20", w:"Geysir", n:"Strokkur erupts every 5–10 min. ~55 min."},
-      {t:"16:30", w:"Gullfoss", n:"Upper + lower viewpoints, best afternoon light. 1 hr."},
-      {t:"18:00", w:"Secret Lagoon, Flúðir ⭐ — BOOKED", n:"2 hrs. Steam glows at dusk — magical photos.", hero:true},
-      {t:"20:30", w:"Kerið crater", n:"Quick dusk stop, red rock + turquoise lake. 15 min."},
-      {t:"21:45", w:"Back in Reykjavík, light dinner", n:"Bónus food or a sandwich — no need to go out."},
-      {t:"23:00", w:"Bed", n:"9+ hrs before the long Vík day."},
-    ]},
-  { day:"Day 4", date:"Thu 18 Sept", title:"Vík: waterfalls + Reynisfjara + Katla ⭐", sub:"~15 hrs · longest day of the trip · everything anchors around the 15:00 Katla start",
-    stops:[
-      {t:"06:30", w:"Wake, breakfast + bathroom rotation", n:"Long day — earlier start."},
-      {t:"08:00", w:"Leave Reykjavík — Driver 1", n:""},
-      {t:"09:45", w:"Seljalandsfoss", n:"Walk BEHIND the waterfall. Waterproofs on — you will get wet.", hero:true},
-      {t:"11:30", w:"Arrive Vík", n:""},
-      {t:"12:00", w:"Lunch in Vík", n:"Smiðjan Brugghús (burgers) or Halldórskaffi. Relaxed 1.5 hrs."},
-      {t:"13:30", w:"Reynisfjara black sand beach", n:"⚠️ Stay 30+ m from the water. Check the flag. Red = stay off the sand.", warn:true},
-      {t:"14:20", w:"Arrive Katla meet point", n:"Buffer time, gear check."},
-      {t:"15:00", w:"Katla Ice Cave tour ⭐ — BOOKED", n:"3 hrs, Super Jeep + guided cave. Warm layers essential.", hero:true},
-      {t:"19:00", w:"Skógafoss — golden hour ⭐", n:"South-facing waterfall in evening light. Best photos of the trip.", hero:true},
-      {t:"22:00", w:"Back in Reykjavík", n:"Swap drivers on the way, watch for sheep."},
-      {t:"23:00", w:"Quick dinner + bed", n:"Bónus food + hot showers."},
-    ]},
-  { day:"Day 5", date:"Fri 19 Sept", title:"Reykjavík + Reykjanes + Blue Lagoon", sub:"Chill morning, Reykjanes peninsula on the way south, sunset soak",
-    stops:[
-      {t:"09:00", w:"Sleep in, slow breakfast", n:"Bathroom rotation, no rush."},
-      {t:"11:00", w:"Hallgrímskirkja tower", n:"€10 for the panoramic view. Skip if the queue is long."},
-      {t:"12:00", w:"Sun Voyager + Harpa + Laugavegur shopping", n:"66°North, Rammagerðin for souvenirs."},
-      {t:"13:15", w:"Lunch — Café Loki or Sægreifinn", n:"Icelandic bites / lobster soup. Relaxed."},
-      {t:"15:15", w:"Bridge Between Continents", n:"Walk between the tectonic plates on Reykjanes. 30 min."},
-      {t:"16:00", w:"Gunnuhver hot springs", n:"Steaming mud pots, sulphur smell — proper Iceland. 30 min."},
-      {t:"16:45", w:"Reykjanesviti lighthouse", n:"Quick photo stop, Iceland's oldest lighthouse."},
-      {t:"17:30", w:"Blue Lagoon Comfort ⭐", n:"2.5 hrs. Silica mask, drink, scrub. Sunset soak — condition hair first, keep it in a bun.", hero:true},
-      {t:"20:30", w:"Drive back, final dinner", n:"Austur Indíafélagið (splurge) or Mama Reykjavík (vegan). Book ahead."},
-      {t:"23:00", w:"Pack everything", n:"04:30 wake tomorrow — lay out clothes tonight."},
-    ]},
-  { day:"Day 6", date:"Sat 20 Sept", title:"Departure", sub:"",
-    stops:[
-      {t:"04:30", w:"Wake, coffee", n:""},
-      {t:"05:00", w:"Drop off Kia Sportage at Lotus", n:"Photograph every panel before handing over keys."},
-      {t:"05:30", w:"Shuttle to KEF terminal", n:"Free with Lotus."},
-      {t:"06:00", w:"Check-in + security", n:""},
-      {t:"07:40", w:"Flight KEF → DUB", n:"Land Dublin 11:05. Home."},
-    ]},
-];
+function bindEditableHandlers(root){
+  root.querySelectorAll('.editable').forEach(el => {
+    el.contentEditable = editMode;
+    el.addEventListener('blur', onEditableBlur);
+    el.addEventListener('keydown', e => { if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); el.blur(); } });
+  });
+  root.querySelectorAll('.del-btn').forEach(el => {
+    el.addEventListener('click', onDeleteClick);
+  });
+  root.querySelectorAll('[data-flag]').forEach(el => {
+    el.addEventListener('change', onFlagChange);
+  });
+  root.querySelectorAll('.status-select').forEach(el => {
+    el.addEventListener('change', onStatusChange);
+  });
+}
 
-const COSTS = {
-  shared: [
-    { group:"Visa & travel insurance", items:[
-      {name:"Schengen visa (all 4)", notes:"Approved, valid 15 Sep – 29 Oct 2026", status:"booked", pp:165, total:660},
-    ]},
-    { group:"Flights", items:[
-      {name:"Icelandair DUB ⇄ KEF return", notes:"15 Sep 14:15 out · 20 Sep 07:40 back", status:"booked", pp:279, total:1116},
-    ]},
-    { group:"Accommodation", items:[
-      {name:"Reykjavík Airbnb — 5 nights", notes:"2BR in 101, sleeps 4, kitchen, parking", status:"booked", pp:182, total:728},
-    ]},
-    { group:"Car, fuel & driving", items:[
-      {name:"Kia Sportage 4x4 rental", notes:"Lotus, ref AY2NQO", status:"booked", pp:117, total:468},
-      {name:"Platinum insurance", notes:"Zero excess, animal / gravel / sand-ash cover", status:"booked", pp:64, total:256},
-      {name:"Fuel", notes:"~2,500 km, 7% Lotus discount applied", status:"planned", pp:77, total:308},
-      {name:"Road tax + extra driver", notes:"Included in booking", status:"booked", pp:24, total:96},
-      {name:"Parking at sights", notes:"Þingvellir, Gullfoss, waterfalls — €5–7 each", status:"planned", pp:8, total:32},
-    ]},
-    { group:"Attractions & tours", items:[
-      {name:"Amphibian boat, Jökulsárlón", notes:"Tue 16, 14:00, 40 min", status:"booked", pp:51, total:204},
-      {name:"Katla Ice Cave tour", notes:"Thu 18, 15:00, 3 hrs", status:"booked", pp:100, total:400},
-      {name:"Secret Lagoon, Flúðir", notes:"Wed 17, 18:00", status:"booked", pp:32, total:128},
-      {name:"Blue Lagoon Comfort", notes:"Fri 19, 17:30", status:"tobook", pp:85, total:340},
-      {name:"Kerið crater + Hallgrímskirkja tower", notes:"€4 + €10 pp", status:"planned", pp:14, total:56},
-    ]},
-    { group:"Food", items:[
-      {name:"Groceries (Bónus)", notes:"Breakfasts + packed lunches, 5 days", status:"planned", pp:15, total:60},
-      {name:"Efstidalur II lunch (Wed)", notes:"Unlimited soup + ice cream", status:"tobook", pp:22, total:88},
-      {name:"Indian/veg dinners x2", notes:"Hraðlestin, Indian Mango, Gandhi", status:"planned", pp:35, total:140},
-      {name:"Vík lunch (Day 4)", notes:"Smiðjan Brugghús / Halldórskaffi", status:"planned", pp:25, total:100},
-      {name:"Casual meals + final dinner", notes:"Café Loki, snacks, splurge dinner Fri", status:"planned", pp:61, total:244},
-    ]},
-    { group:"Misc", items:[
-      {name:"Souvenirs", notes:"66°North, Rammagerðin, lopapeysa", status:"planned", pp:40, total:160},
-      {name:"eSIM (Airalo)", notes:"7-day Iceland data", status:"tobook", pp:15, total:60},
-      {name:"Buffer", notes:"Iceland always costs a bit more than planned", status:"planned", pp:60, total:240},
-    ]},
-  ],
-  personal: [
-    { who:"Aadi", est:131, note:"Owns base layers, sweaters, waterproof jacket already — spend is trousers, over-trousers, socks, gloves, anti-perspirant." },
-    { who:"Krithika", est:358, note:"Template — she should confirm what she already owns before buying anything." },
-  ]
-};
-
-const PACKING = {
-  aadi: {
-    strategy:"Own most of the kit already — Jockey/Warmline base layers, three sweaters, a waterproof Primark jacket. Shopping list is short.",
-    groups:[
-      { g:"Already own — bring these", items:[
-        {id:"a-base-jockey", name:"Jockey 2604 microfiber base top + bottom", notes:"Wicking, snug fit — wear on Diamond Beach & Katla days.", own:true},
-        {id:"a-base-warmline", name:"Warmline polywool base top + bottom", notes:"Slightly warmer, wear on chill days.", own:true},
-        {id:"a-sweater-black", name:"Black acrylic-merino sweater", notes:"70/30 blend — main sweater for marathon days.", own:true},
-        {id:"a-sweater-grey", name:"Grey Apt.9 acrylic-merino sweater", notes:"Backup + Day 5 city.", own:true},
-        {id:"a-sweater-rust", name:"Rust Next cotton-nylon sweater", notes:"Photo hero for Day 3 (chill day only).", own:true},
-        {id:"a-jacket", name:"Primark waterproof jacket, fleece-lined", notes:"Confirmed waterproof tag + built-in fleece lining. This is outer AND mid layer.", own:true},
-        {id:"a-boots", name:"Decathlon MH500 waterproof mid-cut boots", notes:"Grip on wet rocks.", own:true},
-      ]},
-      { g:"To buy", items:[
-        {id:"a-trousers-black", name:"1× black slim trousers", notes:"Karrimor Panther, Sports Direct — for Diamond Beach & Katla days.", price:22},
-        {id:"a-trousers-beige", name:"1× beige/khaki slim trousers", notes:"Karrimor Panther, Sports Direct — chill/photo days.", price:23},
-        {id:"a-overtrousers", name:"Waterproof over-trousers", notes:"Decathlon Quechua NH500 rain — only for Seljalandsfoss + heavy rain.", price:25},
-        {id:"a-socks", name:"Hiking socks ×5 (mixed)", notes:"Karrimor Merino Fusion 2-pack + Penneys thermal 3-pack.", price:18},
-        {id:"a-gloves", name:"Wedze Firstheat ski gloves", notes:"Waterproof, warm enough for the ice cave.", price:15},
-        {id:"a-beanie", name:"Wool beanie, plain dark", notes:"Penneys — photo-friendly, no logo.", price:5},
-        {id:"a-buff", name:"Fleece buff / neck warmer", notes:"Wind protection at Reynisfjara & Skógafoss.", price:5},
-      ]},
-      { g:"Sweat management", items:[
-        {id:"a-driclor", name:"Driclor anti-perspirant", notes:"Apply nightly for 5–7 nights before flying. Cuts baseline sweating significantly. Boots pharmacy.", price:10},
-        {id:"a-pads", name:"Underarm sweat pads ×2 packs", notes:"Stick inside base layer, absorb before it reaches sweater.", price:8},
-      ]},
-      { g:"Daily care routine (do every night)", items:[
-        {id:"a-care-1", name:"Boots off, stuff with tissue, near radiator", notes:""},
-        {id:"a-care-2", name:"Hang base layer / hoodie / trousers to air overnight", notes:""},
-        {id:"a-care-3", name:"Sink-wash today's socks + underwear", notes:"Soap, wring hard, hang on shower rail."},
-        {id:"a-care-4", name:"Sniff-test base layer each morning", notes:"Rinse if needed, otherwise wear again."},
-      ]},
-    ],
-    total:"~€131"
-  },
-  krithika: {
-    strategy:"Template only — confirm what you already own (base layers, waterproof jacket, wool/acrylic sweaters) before buying anything on this list.",
-    groups:[
-      { g:"Top layers", items:[
-        {id:"k-base", name:"Base layer top ×2", notes:"Decathlon women's Kalenji/Domyos, or confirm if you already own thermals.", price:30},
-        {id:"k-fleece", name:"Fleece or cardigan", notes:"Mid layer — check if a sweater you own already does this job.", price:15},
-        {id:"k-jacket", name:"Waterproof jacket", notes:"Only if you don't already have one — check tag for waterproof rating.", price:65},
-      ]},
-      { g:"Bottom layers", items:[
-        {id:"k-leggings", name:"Thermal leggings", notes:"Invisible under trousers, for cold days.", price:10},
-        {id:"k-trousers", name:"Hiking trousers ×2, dark", notes:"Decathlon Quechua NH500 or Uniqlo HEATTECH slim.", price:60},
-        {id:"k-overtrousers", name:"Waterproof over-trousers", notes:"Seljalandsfoss + heavy rain only.", price:25},
-      ]},
-      { g:"Feet", items:[
-        {id:"k-boots", name:"Waterproof hiking boots, mid-cut", notes:"Decathlon MH500 or NH500 women's.", price:60},
-        {id:"k-socks", name:"Hiking socks ×3", notes:"Rotate + sink-wash nightly.", price:30},
-      ]},
-      { g:"Accessories", items:[
-        {id:"k-beanie", name:"Wool beanie, dark/plain", notes:"Penneys / Dunnes / H&M.", price:5},
-        {id:"k-scarf", name:"Chunky knit scarf", notes:"Photo hero for Kirkjufell / Diamond Beach shots.", price:10},
-        {id:"k-buff", name:"Fleece buff / neck warmer", notes:"", price:5},
-        {id:"k-gloves", name:"Touchscreen warm gloves", notes:"Decathlon Quechua or Regatta.", price:15},
-      ]},
-      { g:"Blue Lagoon specific", items:[
-        {id:"k-swim", name:"Swimwear", notes:"Wear under clothes to avoid changing-room hassle.", price:0},
-        {id:"k-hair", name:"Hair care — conditioner", notes:"Apply BEFORE entering the lagoon, keep hair in a bun, don't dunk. Silica damages hair otherwise.", price:5},
-        {id:"k-flip", name:"Flip-flops", notes:"Locker room to lagoon walk.", price:5},
-      ]},
-      { g:"Personal extras", items:[
-        {id:"k-moist", name:"Moisturiser + lip balm", notes:"Iceland wind cracks skin fast — essential, not optional.", price:10},
-        {id:"k-spf", name:"SPF 30 sunscreen", notes:"UV bounces off water/ice even in September.", price:8},
-      ]},
-    ],
-    total:"~€358 (template — will drop once you confirm what you own)"
+function onEditableBlur(e){
+  const el = e.target;
+  const path = JSON.parse(el.dataset.path.replace(/&quot;/g,'"'));
+  let val = el.textContent.trim();
+  if(el.dataset.numeric === '1'){ val = parseFloat(val.replace(/[^0-9.\-]/g,'')) || 0; }
+  setByPath(DATA, path, val);
+  persistAll();
+  // if it's a pp cost field, recompute total = pp*4 for shared costs display consistency
+  if(path[path.length-1] === 'pp'){
+    const totalPath = path.slice(0,-1).concat('total');
+    setByPath(DATA, totalPath, val*4);
+    persistAll();
+    renderCosts();
   }
-};
+}
 
-const FOOD = [
-  { group:"Groceries — Bónus (yellow pig logo)", items:[
-    {name:"Skyr, bread, eggs, butter", notes:"Breakfast basics", price:"€20"},
-    {name:"Sandwich stuff", notes:"Pack lunches for driving days", price:"€15"},
-    {name:"Pasta + jarred sauce", notes:"Cheap Airbnb dinner", price:"€8"},
-    {name:"Fruit, snack bars, coffee", notes:"For the road", price:"€25"},
-    {name:"Water bottles", notes:"Skip — tap water is the cleanest in the world", price:"€0"},
-  ]},
-  { group:"Restaurants", items:[
-    {name:"Day 1 — Hraðlestin / Indian Mango", notes:"Indian veg thali, Laugavegur", price:"€25pp"},
-    {name:"Day 3 — Efstidalur II", notes:"Unlimited soup + bread + farm ice cream", price:"€22pp"},
-    {name:"Day 4 — Smiðjan Brugghús / Halldórskaffi", notes:"Vík, burgers + craft beer", price:"€25pp"},
-    {name:"Day 5 lunch — Café Loki / Sægreifinn", notes:"Icelandic bites / lobster soup", price:"€15pp"},
-    {name:"Day 5 final dinner — Austur Indíafélagið", notes:"Fine-dining Indian splurge, or Mama Reykjavík (vegan)", price:"€40pp"},
-  ]},
-  { group:"Coffee & snacks", items:[
-    {name:"Reykjavík Roasters", notes:"Best coffee in the city, Kárastígur 1", price:"€6"},
-    {name:"Braud & Co", notes:"Cinnamon buns + sourdough, Frakkastígur 16", price:"€5"},
-    {name:"N1 station coffee", notes:"Surprisingly good road-trip standard", price:"€4"},
-  ]},
-];
+function onDeleteClick(e){
+  e.stopPropagation();
+  const btn = e.currentTarget;
+  const path = JSON.parse(btn.dataset.arrpath.replace(/&quot;/g,'"'));
+  const idx = parseInt(btn.dataset.idx,10);
+  delAt(DATA, path, idx);
+  persistAll();
+  rerenderCurrentTab();
+}
 
-const CHECKLIST = [
-  { g:"Bookings — highest priority", items:[
-    {id:"c-blue", name:"Book Blue Lagoon Comfort", notes:"Fri 19 Sep, 17:30 slot — bluelagoon.com", deadline:"Now"},
-    {id:"c-efsti", name:"Book Efstidalur II lunch", notes:"Wed 17 Sep, 13:30 — efstidalur.is", deadline:"1 week before"},
-    {id:"c-lotus", name:"Confirm Lotus drop-off time", notes:"Awaiting Joanna's reply on office hours for 07:40 flight", deadline:"Waiting reply"},
-    {id:"c-dinner", name:"Reserve final dinner", notes:"Austur Indíafélagið or Mama Reykjavík, Fri 19", deadline:"1 week before"},
-  ]},
-  { g:"Shopping", items:[
-    {id:"c-trousers", name:"Buy trousers — 1 black + 1 beige", notes:"Karrimor Panther, Sports Direct", deadline:"2 weeks before"},
-    {id:"c-decathlon", name:"Decathlon run", notes:"Over-trousers, gloves, socks top-up", deadline:"2 weeks before"},
-    {id:"c-driclor", name:"Buy Driclor + sweat pads", notes:"Boots pharmacy — start applying nightly ASAP", deadline:"This week"},
-    {id:"c-krithika-review", name:"Krithika reviews her packing list", notes:"Confirm what she already owns", deadline:"This week"},
-  ]},
-  { g:"Digital prep", items:[
-    {id:"c-apps", name:"Download apps", notes:"Vedur, Umferðin (road.is), 112 Iceland, My Aurora Forecast, Parka", deadline:"1 week before"},
-    {id:"c-maps", name:"Download offline Google Maps", notes:"Reykjavík to Jökulsárlón corridor", deadline:"1 week before"},
-    {id:"c-esim", name:"Buy Airalo eSIM", notes:"Install, don't activate until landing", deadline:"Day before"},
-    {id:"c-pdfs", name:"Save all confirmations as PDF", notes:"Flights, Lotus, Airbnb, all tours", deadline:"Day before"},
-  ]},
-  { g:"Financial", items:[
-    {id:"c-pin", name:"Confirm Revolut has a 4-digit PIN", notes:"Test at a Dublin ATM — mandatory for Iceland pumps", deadline:"1 week before"},
-    {id:"c-bank", name:"Notify bank of travel", notes:"Prevents card blocking", deadline:"1 week before"},
-    {id:"c-limit", name:"Check credit card limit", notes:"Lotus deposit needs headroom if not on Platinum", deadline:"1 week before"},
-  ]},
-  { g:"Packing", items:[
-    {id:"c-dl", name:"Original Indian DL in wallet", notes:"Not checked luggage — both drivers", deadline:"Night before"},
-    {id:"c-passport", name:"Passports + IRP cards", notes:"Both couples", deadline:"Night before"},
-    {id:"c-pouch", name:"Waterproof phone pouch for Blue Lagoon", notes:"Or buy on-site for €12", deadline:"Night before"},
-  ]},
-  { g:"Departure day — 15 Sept", items:[
-    {id:"c-checkin", name:"Online check-in", notes:"24 hrs before, Icelandair app", deadline:"14 Sep"},
-    {id:"c-leave", name:"Leave home 09:30", notes:"Dublin airport 90 min before flight", deadline:"15 Sep"},
-    {id:"c-shuttle", name:"Walk to Lotus shuttle at KEF", notes:"Outside terminal, not inside", deadline:"15 Sep, 16:00"},
-    {id:"c-inspect", name:"Photograph every car panel before driving off", notes:"Protects you at drop-off", deadline:"15 Sep, 17:00"},
-  ]},
-];
+function onFlagChange(e){
+  const el = e.target;
+  const path = JSON.parse(el.dataset.path.replace(/&quot;/g,'"'));
+  setByPath(DATA, path, el.checked);
+  persistAll();
+  renderItinerary();
+}
+
+function onStatusChange(e){
+  const el = e.target;
+  const path = JSON.parse(el.dataset.path.replace(/&quot;/g,'"'));
+  setByPath(DATA, path, el.value);
+  persistAll();
+  renderCosts();
+}
+
+function delBtn(arrPath, idx){
+  const p = JSON.stringify(arrPath).replace(/"/g,'&quot;');
+  return `<button class="del-btn" data-arrpath='${p}' data-idx="${idx}">×</button>`;
+}
+
+function rerenderCurrentTab(){
+  const active = document.querySelector('#tabs button.active').dataset.tab;
+  renderAll();
+}
+
+/* =========================================================
+   RENDER — OVERVIEW
+   ========================================================= */
+function renderOverview(){
+  const g = document.getElementById('ov-group');
+  g.innerHTML = DATA.overview.group.map((row,i) => `
+    <div class="kv">
+      <span class="k editable" data-path='${JSON.stringify(["overview","group",i,"k"]).replace(/"/g,'&quot;')}'>${row.k}</span>
+      <span class="v editable" data-path='${JSON.stringify(["overview","group",i,"v"]).replace(/"/g,'&quot;')}'>${row.v}</span>
+      ${delBtn(["overview","group"], i)}
+    </div>`).join('');
+
+  const fl = document.getElementById('ov-flights');
+  fl.innerHTML = DATA.overview.flights.map((f,i) => `
+    <div class="row-item">
+      <div class="left">
+        <div class="name editable" data-path='${JSON.stringify(["overview","flights",i,"name"]).replace(/"/g,'&quot;')}'>${f.name}</div>
+        <div class="notes editable" data-path='${JSON.stringify(["overview","flights",i,"notes"]).replace(/"/g,'&quot;')}'>${f.notes}</div>
+      </div>
+      <div class="right">
+        <select class="status-select" data-path='${JSON.stringify(["overview","flights",i,"status"]).replace(/"/g,'&quot;')}'>
+          ${['booked','tobook','planned'].map(s=>`<option value="${s}" ${f.status===s?'selected':''}>${s==='booked'?'Booked':s==='tobook'?'To book':'Planned'}</option>`).join('')}
+        </select>
+        ${delBtn(["overview","flights"], i)}
+      </div>
+    </div>`).join('');
+
+  const car = document.getElementById('ov-car');
+  car.innerHTML = DATA.overview.car.map((row,i) => `
+    <div class="kv">
+      <span class="k editable" data-path='${JSON.stringify(["overview","car",i,"k"]).replace(/"/g,'&quot;')}'>${row.k}</span>
+      <span class="v editable" data-path='${JSON.stringify(["overview","car",i,"v"]).replace(/"/g,'&quot;')}'>${row.v}</span>
+      ${delBtn(["overview","car"], i)}
+    </div>`).join('');
+
+  document.querySelector('[data-path="[&quot;overview&quot;,&quot;carNote&quot;]"]').textContent = DATA.overview.carNote;
+
+  const rem = document.getElementById('ov-reminders');
+  rem.innerHTML = DATA.overview.reminders.map((r,i) => `
+    <div class="reminder">
+      <span class="txt"><b class="editable" data-path='${JSON.stringify(["overview","reminders",i,"label"]).replace(/"/g,'&quot;')}'>${r.label}</b>: <span class="editable" data-path='${JSON.stringify(["overview","reminders",i,"text"]).replace(/"/g,'&quot;')}'>${r.text}</span></span>
+      ${delBtn(["overview","reminders"], i)}
+    </div>`).join('');
+
+  bindEditableHandlers(document.getElementById('panel-overview'));
+}
 
 /* =========================================================
    RENDER — ITINERARY
    ========================================================= */
 function renderItinerary(){
-  const el = document.getElementById('panel-itinerary');
-  el.innerHTML = ITINERARY.map(d => `
+  const el = document.getElementById('itinerary-content');
+  el.innerHTML = DATA.itinerary.map((d,di) => `
     <div class="day-card">
       <div class="day-head">
         <span class="daynum">${d.day}</span>
-        <span class="daytitle">${d.title}</span>
-        ${d.sub ? `<span class="daysub">${d.date} — ${d.sub}</span>` : `<span class="daysub">${d.date}</span>`}
+        <span class="daytitle editable" data-path='${JSON.stringify(["itinerary",di,"title"]).replace(/"/g,'&quot;')}'>${d.title}</span>
+        <span class="daysub"><span class="editable" data-path='${JSON.stringify(["itinerary",di,"date"]).replace(/"/g,'&quot;')}'>${d.date}</span> — <span class="editable" data-path='${JSON.stringify(["itinerary",di,"sub"]).replace(/"/g,'&quot;')}'>${d.sub}</span></span>
       </div>
-      ${d.stops.map(s => `
+      ${d.stops.map((s,si) => `
         <div class="stop ${s.hero?'hero':''} ${s.warn?'warn':''}">
-          <div class="time">${s.t}</div>
+          <div class="time editable" data-path='${JSON.stringify(["itinerary",di,"stops",si,"t"]).replace(/"/g,'&quot;')}'>${s.t}</div>
           <div>
-            <div class="what">${s.w}</div>
-            ${s.n ? `<div class="notes">${s.n}</div>` : ``}
+            <div class="what editable" data-path='${JSON.stringify(["itinerary",di,"stops",si,"w"]).replace(/"/g,'&quot;')}'>${s.w}</div>
+            <div class="notes editable" data-path='${JSON.stringify(["itinerary",di,"stops",si,"n"]).replace(/"/g,'&quot;')}'>${s.n||''}</div>
+            <div class="flag-row">
+              <label><input type="checkbox" data-flag data-path='${JSON.stringify(["itinerary",di,"stops",si,"hero"]).replace(/"/g,'&quot;')}' ${s.hero?'checked':''}/> ⭐ highlight</label>
+              <label><input type="checkbox" data-flag data-path='${JSON.stringify(["itinerary",di,"stops",si,"warn"]).replace(/"/g,'&quot;')}' ${s.warn?'checked':''}/> ⚠️ warning</label>
+            </div>
           </div>
+          ${delBtn(["itinerary",di,"stops"], si)}
         </div>
       `).join('')}
+      <button class="add-btn" data-add-day="${di}">+ Add stop to ${d.day}</button>
     </div>
   `).join('');
+
+  el.querySelectorAll('[data-add-day]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const di = parseInt(btn.dataset.addDay,10);
+      DATA.itinerary[di].stops.push({t:"00:00", w:"New stop", n:""});
+      persistAll();
+      renderItinerary();
+    });
+  });
+
+  bindEditableHandlers(el);
 }
 
 /* =========================================================
    RENDER — COSTS
    ========================================================= */
-function statusBadge(s){
-  const map = { booked:['Booked','booked'], tobook:['To book','tobook'], planned:['Planned','planned'], tobuy:['To buy','tobuy'] };
-  const [label, cls] = map[s] || ['—',''];
-  return `<span class="badge ${cls}">${label}</span>`;
+function statusOptions(current){
+  return ['booked','tobook','planned','tobuy'].map(s=>{
+    const label = s==='booked'?'Booked':s==='tobook'?'To book':s==='tobuy'?'To buy':'Planned';
+    return `<option value="${s}" ${current===s?'selected':''}>${label}</option>`;
+  }).join('');
 }
 
 function renderCosts(){
-  const el = document.getElementById('panel-costs');
+  const el = document.getElementById('costs-content');
   let sharedTotal = 0, sharedTotalPP = 0;
-  const groupsHtml = COSTS.shared.map(grp => {
-    const rows = grp.items.map(it => {
+
+  const groupsHtml = DATA.costs.shared.map((grp, gi) => {
+    const rows = grp.items.map((it,ii) => {
       sharedTotal += it.total; sharedTotalPP += it.pp;
+      const base = ["costs","shared",gi,"items",ii];
       return `
       <div class="row-item">
         <div class="left">
-          <div class="name">${it.name}</div>
-          <div class="notes">${it.notes}</div>
+          <div class="name editable" data-path='${JSON.stringify(base.concat("name")).replace(/"/g,'&quot;')}'>${it.name}</div>
+          <div class="notes editable" data-path='${JSON.stringify(base.concat("notes")).replace(/"/g,'&quot;')}'>${it.notes}</div>
         </div>
         <div class="right">
-          <div class="price">€${it.pp}<span class="price2"> /pp</span></div>
-          <div class="price2">€${it.total} total · ${statusBadge(it.status)}</div>
+          <div class="price">€<span class="editable numeric" data-numeric="1" data-path='${JSON.stringify(base.concat("pp")).replace(/"/g,'&quot;')}'>${it.pp}</span><span class="price2"> /pp</span></div>
+          <div class="price2">€${it.total} total</div>
+          ${editMode
+            ? `<select class="status-select" data-path='${JSON.stringify(base.concat("status")).replace(/"/g,'&quot;')}'>${statusOptions(it.status)}</select>`
+            : statusBadgeHtml(it.status)}
+          ${delBtn(["costs","shared",gi,"items"], ii)}
         </div>
       </div>`;
     }).join('');
-    return `<div class="group-header">${grp.group}</div><div class="card tight">${rows}</div>`;
+    return `<div class="group-header">${grp.group}</div><div class="card tight">${rows}</div>
+      <button class="add-btn" data-add-cost="${gi}">+ Add to ${grp.group}</button>`;
   }).join('');
 
-  const personalHtml = COSTS.personal.map(p => `
+  const personalHtml = DATA.costs.personal.map((p,pi) => `
     <div class="row-item">
       <div class="left">
-        <div class="name">${p.who}</div>
-        <div class="notes">${p.note}</div>
+        <div class="name editable" data-path='${JSON.stringify(["costs","personal",pi,"who"]).replace(/"/g,'&quot;')}'>${p.who}</div>
+        <div class="notes editable" data-path='${JSON.stringify(["costs","personal",pi,"note"]).replace(/"/g,'&quot;')}'>${p.note}</div>
       </div>
-      <div class="right"><div class="price">€${p.est}</div></div>
-    </div>
-  `).join('');
+      <div class="right"><div class="price">€<span class="editable numeric" data-numeric="1" data-path='${JSON.stringify(["costs","personal",pi,"est"]).replace(/"/g,'&quot;')}'>${p.est}</span></div></div>
+    </div>`).join('');
 
   el.innerHTML = `
     <div class="section-title"><h2>Shared costs</h2><span class="count">flights · stay · car · tours · food</span></div>
@@ -798,6 +861,22 @@ function renderCosts(){
     <div class="card tight">${personalHtml}</div>
     <div class="subnote">Personal shopping is separate from the shared pot above. Nithish &amp; Niranjana should budget their own gear similarly — typically €100–150 each if starting from scratch.</div>
   `;
+
+  el.querySelectorAll('[data-add-cost]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const gi = parseInt(btn.dataset.addCost,10);
+      DATA.costs.shared[gi].items.push({name:"New item", notes:"", status:"planned", pp:0, total:0});
+      persistAll();
+      renderCosts();
+    });
+  });
+
+  bindEditableHandlers(el);
+}
+function statusBadgeHtml(s){
+  const map = { booked:['Booked','booked'], tobook:['To book','tobook'], planned:['Planned','planned'], tobuy:['To buy','tobuy'] };
+  const [label, cls] = map[s] || ['—',''];
+  return `<span class="badge ${cls}">${label}</span>`;
 }
 
 /* =========================================================
@@ -805,39 +884,58 @@ function renderCosts(){
    ========================================================= */
 let currentWho = 'aadi';
 function renderPacking(){
-  const data = PACKING[currentWho];
+  const data = DATA.packing[currentWho];
   const el = document.getElementById('packing-content');
   let checkableIds = [];
-  const groupsHtml = data.groups.map(grp => {
-    const rows = grp.items.map(it => {
+
+  const groupsHtml = data.groups.map((grp,gi) => {
+    const rows = grp.items.map((it,ii) => {
       const isCheckable = !!it.id;
       if(isCheckable) checkableIds.push(it.id);
       const isDone = isCheckable && !!CHECKS[it.id];
-      const priceTag = it.own ? `<span class="own-pill">Own</span>` : (typeof it.price === 'number' ? `<span class="price-pill">€${it.price}</span>` : '');
+      const base = ["packing",currentWho,"groups",gi,"items",ii];
+      const priceTag = it.own
+        ? `<span class="own-pill">Own</span>`
+        : (typeof it.price === 'number' ? `<span class="price-pill">€<span class="editable numeric" data-numeric="1" data-path='${JSON.stringify(base.concat("price")).replace(/"/g,'&quot;')}'>${it.price}</span></span>` : '');
+      const nameSpan = `<span class="name editable" data-path='${JSON.stringify(base.concat("name")).replace(/"/g,'&quot;')}'>${it.name}</span>`;
+      const notesSpan = it.notes!==undefined ? `<div class="notes editable" data-path='${JSON.stringify(base.concat("notes")).replace(/"/g,'&quot;')}'>${it.notes}</div>` : '';
       if(!isCheckable){
-        return `<div class="row-item"><div class="left"><div class="name">${it.name}</div>${it.notes?`<div class="notes">${it.notes}</div>`:''}</div></div>`;
+        return `<div class="row-item"><div class="left"><div class="name">${nameSpan}</div>${notesSpan}</div><div class="right">${delBtn(["packing",currentWho,"groups",gi,"items"], ii)}</div></div>`;
       }
       return `
-        <div class="check-item ${isDone?'done':''}" onclick="toggleCheck('${it.id}')">
-          <div class="checkbox ${isDone?'on':''}"></div>
+        <div class="check-item ${isDone?'done':''}">
+          <div class="checkbox ${isDone?'on':''}" onclick="toggleCheck('${it.id}')"></div>
           <div class="txt">
-            <div class="name">${it.name}</div>
-            ${it.notes?`<div class="notes">${it.notes}</div>`:''}
+            <div class="name">${nameSpan}</div>
+            ${notesSpan}
           </div>
           <div class="meta">${priceTag}</div>
+          ${delBtn(["packing",currentWho,"groups",gi,"items"], ii)}
         </div>`;
     }).join('');
-    return `<div class="group-header">${grp.g}</div><div class="card tight">${rows}</div>`;
+    return `<div class="group-header">${grp.g}</div><div class="card tight">${rows}</div>
+      <button class="add-btn" data-add-pack="${gi}">+ Add to ${grp.g}</button>`;
   }).join('');
 
   el.innerHTML = `
-    <div class="subnote">${data.strategy}</div>
+    <div class="subnote editable" data-path='${JSON.stringify(["packing",currentWho,"strategy"]).replace(/"/g,'&quot;')}'>${data.strategy}</div>
     ${groupsHtml}
     <div class="total-bar">
       <div><div class="lbl">Estimated spend</div></div>
-      <div class="amt" style="font-size:20px;">${data.total}</div>
+      <div class="amt editable" style="font-size:20px;" data-path='${JSON.stringify(["packing",currentWho,"total"]).replace(/"/g,'&quot;')}'>${data.total}</div>
     </div>
   `;
+
+  el.querySelectorAll('[data-add-pack]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const gi = parseInt(btn.dataset.addPack,10);
+      DATA.packing[currentWho].groups[gi].items.push({id:newId('item'), name:"New item", notes:"", price:0});
+      persistAll();
+      renderPacking();
+    });
+  });
+
+  bindEditableHandlers(el);
 
   const done = checkableIds.filter(id => CHECKS[id]).length;
   const pct = checkableIds.length ? Math.round(done/checkableIds.length*100) : 0;
@@ -849,22 +947,42 @@ function renderPacking(){
    RENDER — FOOD
    ========================================================= */
 function renderFood(){
-  const el = document.getElementById('panel-food');
-  el.innerHTML = FOOD.map(grp => `
+  const el = document.getElementById('food-content');
+  el.innerHTML = DATA.food.map((grp,gi) => `
     <div class="group-header">${grp.group}</div>
     <div class="card tight">
-      ${grp.items.map(it => `
+      ${grp.items.map((it,ii) => {
+        const base = ["food",gi,"items",ii];
+        return `
         <div class="row-item">
-          <div class="left"><div class="name">${it.name}</div><div class="notes">${it.notes}</div></div>
-          <div class="right"><div class="price">${it.price}</div></div>
-        </div>
-      `).join('')}
+          <div class="left">
+            <div class="name editable" data-path='${JSON.stringify(base.concat("name")).replace(/"/g,'&quot;')}'>${it.name}</div>
+            <div class="notes editable" data-path='${JSON.stringify(base.concat("notes")).replace(/"/g,'&quot;')}'>${it.notes}</div>
+          </div>
+          <div class="right">
+            <div class="price editable" data-path='${JSON.stringify(base.concat("price")).replace(/"/g,'&quot;')}'>${it.price}</div>
+            ${delBtn(["food",gi,"items"], ii)}
+          </div>
+        </div>`;
+      }).join('')}
     </div>
+    <button class="add-btn" data-add-food="${gi}">+ Add to ${grp.group}</button>
   `).join('') + `
     <div class="subnote" style="margin-top:20px;">
       <b>Money-saving tips:</b> never buy bottled water · buy alcohol at KEF duty-free, not Vínbúðin · Bónus &gt; Krónan &gt; Netto, avoid 10-11 &amp; Krambúðin · N1 station food is overpriced, bring Bónus snacks · no tipping anywhere in Iceland.
     </div>
   `;
+
+  el.querySelectorAll('[data-add-food]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const gi = parseInt(btn.dataset.addFood,10);
+      DATA.food[gi].items.push({name:"New place", notes:"", price:"€0"});
+      persistAll();
+      renderFood();
+    });
+  });
+
+  bindEditableHandlers(el);
 }
 
 /* =========================================================
@@ -873,22 +991,36 @@ function renderFood(){
 function renderChecklist(){
   const el = document.getElementById('checklist-content');
   let allIds = [];
-  el.innerHTML = CHECKLIST.map(grp => {
-    const rows = grp.items.map(it => {
+  el.innerHTML = DATA.checklist.map((grp,gi) => {
+    const rows = grp.items.map((it,ii) => {
       allIds.push(it.id);
       const isDone = !!CHECKS[it.id];
+      const base = ["checklist",gi,"items",ii];
       return `
-        <div class="check-item ${isDone?'done':''}" onclick="toggleCheck('${it.id}')">
-          <div class="checkbox ${isDone?'on':''}"></div>
+        <div class="check-item ${isDone?'done':''}">
+          <div class="checkbox ${isDone?'on':''}" onclick="toggleCheck('${it.id}')"></div>
           <div class="txt">
-            <div class="name">${it.name}</div>
-            ${it.notes?`<div class="notes">${it.notes}</div>`:''}
+            <div class="name editable" data-path='${JSON.stringify(base.concat("name")).replace(/"/g,'&quot;')}'>${it.name}</div>
+            <div class="notes editable" data-path='${JSON.stringify(base.concat("notes")).replace(/"/g,'&quot;')}'>${it.notes}</div>
           </div>
-          <div class="meta">${it.deadline}</div>
+          <div class="meta editable" data-path='${JSON.stringify(base.concat("deadline")).replace(/"/g,'&quot;')}'>${it.deadline}</div>
+          ${delBtn(["checklist",gi,"items"], ii)}
         </div>`;
     }).join('');
-    return `<div class="group-header">${grp.g}</div><div class="card tight">${rows}</div>`;
+    return `<div class="group-header">${grp.g}</div><div class="card tight">${rows}</div>
+      <button class="add-btn" data-add-check="${gi}">+ Add to ${grp.g}</button>`;
   }).join('');
+
+  el.querySelectorAll('[data-add-check]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const gi = parseInt(btn.dataset.addCheck,10);
+      DATA.checklist[gi].items.push({id:newId('chk'), name:"New task", notes:"", deadline:"TBD"});
+      persistAll();
+      renderChecklist();
+    });
+  });
+
+  bindEditableHandlers(el);
 
   const done = allIds.filter(id => CHECKS[id]).length;
   const pct = allIds.length ? Math.round(done/allIds.length*100) : 0;
@@ -897,7 +1029,7 @@ function renderChecklist(){
 }
 
 /* =========================================================
-   TABS
+   TABS + EDIT TOGGLE + WHO TOGGLE
    ========================================================= */
 document.getElementById('tabs').addEventListener('click', (e) => {
   const btn = e.target.closest('button[data-tab]');
@@ -917,11 +1049,18 @@ document.getElementById('packing-who').addEventListener('click', (e) => {
   renderPacking();
 });
 
+document.getElementById('edit-toggle').addEventListener('click', () => {
+  editMode = !editMode;
+  document.body.classList.toggle('edit-mode', editMode);
+  document.getElementById('edit-toggle').classList.toggle('on', editMode);
+  document.getElementById('edit-toggle-label').textContent = editMode ? 'Done editing' : 'Edit trip';
+  renderAll();
+});
+
 /* =========================================================
    COUNTDOWN
    ========================================================= */
 function tickCountdown(){
-  // Trip departure: 15 Sept 2026, 14:15 Dublin/Reykjavik time (both UTC+1 in Sept, Iceland is UTC year-round but flight is Dublin local)
   const target = new Date("2026-09-15T14:15:00+01:00").getTime();
   const now = Date.now();
   let diff = target - now;
@@ -939,15 +1078,20 @@ setInterval(tickCountdown, 1000);
 tickCountdown();
 
 /* =========================================================
-   INIT
+   RENDER ALL + INIT
    ========================================================= */
-(async function init(){
-  await loadChecks();
+function renderAll(){
+  renderOverview();
   renderItinerary();
   renderCosts();
   renderPacking();
   renderFood();
   renderChecklist();
+}
+
+(async function init(){
+  await loadAll();
+  renderAll();
 })();
 </script>
 </body>
